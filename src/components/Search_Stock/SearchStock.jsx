@@ -1,8 +1,9 @@
-import { Typography, Box, Grid } from '@material-ui/core'
+import { Typography, Box, Grid, Paper } from '@material-ui/core'
 import { useState } from 'react'
 import StockChart from './StockChart'
 import Comment from './Comment'
 import SearchBar from './SearchBar'
+import StockHeader from './StockHeader'
 
 const SearchStock = () => {
 
@@ -26,10 +27,10 @@ const SearchStock = () => {
     }
 
     return (
-        <Grid align="center" width='60%'>
+        <Grid align='center' justify='center' width='45%'>
             <Box sx={{ height: '80px' }}></Box>
             <SearchBar sendFromIcon={sendTermFromIcon} sendFromEnter={sendTermFromEnter}></SearchBar>
-            <Typography>{'Stock Info of ' + searchTerm}</Typography>
+            <StockHeader stock={searchTerm} />
             <StockChart stock={searchTerm} />
             <Comment stock={searchTerm} />
         </Grid>
