@@ -1,9 +1,9 @@
 import React from 'react'
 
-const Comment = () => {
+const Comment = ({ stock }) => {
     return (
         <div>
-            Comment section
+            {'Comment section of ' + stock}
         </div>
     )
 }

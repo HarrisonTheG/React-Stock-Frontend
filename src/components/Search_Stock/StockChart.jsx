@@ -1,9 +1,9 @@
 import React from 'react'
 
-const StockChart = () => {
+const StockChart = ({ stock }) => {
     return (
         <div>
-            Stock Chart
+            {'Stock Chart of ' + stock}
         </div>
     )
 }
