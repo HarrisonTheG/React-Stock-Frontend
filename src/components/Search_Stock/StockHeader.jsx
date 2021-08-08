@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react'
-import { Typography, Box, Grid } from '@material-ui/core'
+import { Typography, Box, Grid, Button } from '@material-ui/core'
+import RemoveRedEyeTwoToneIcon from '@material-ui/icons/RemoveRedEyeTwoTone';
+import ArrowUpwardTwoToneIcon from '@material-ui/icons/ArrowUpwardTwoTone';
+import ArrowDownwardTwoToneIcon from '@material-ui/icons/ArrowDownwardTwoTone';
 import protobuf from 'protobufjs'
 const { Buffer } = require('buffer/');
 
@@ -44,9 +47,16 @@ const StockHeader = ({ stock }) => {
     }, [])
 
     return (
-        <Box display='flex' justifyContent='flex-start' width='45%'>
-            <h1>{'Stock Info of ' + stock}</h1> &nbsp;
-            {wsStock && <h1>{formatPrice(wsStock.price)}</h1>}
+        <Box display='flex' width='45%' height='50px' marginTop='32px'>
+            <Box display='flex' flex={6} flexDirection='row' justifyContent='flex-start' >
+                <Typography variant='h3' style={{ fontWeight: 700, fontSize: 40 }}>{'AAPL' + stock}</Typography> &nbsp; &nbsp;
+                {wsStock && <Typography variant='h3' style={{ fontSize: 40 }}>{formatPrice(wsStock.price)}</Typography>} &nbsp; &nbsp;
+                <ArrowUpwardTwoToneIcon style={{ fill: 'green', marginTop: '16px' }} />
+                <ArrowDownwardTwoToneIcon style={{ fill: 'red', marginTop: '16px' }} />
+                <Typography variant='subtitle1' style={{ marginTop: '16px', color: 'green' }}>{'1.23%'}</Typography>
+            </Box >
+            <Button variant='contained' color='primary' size='small' marginRight='0px' flex={1} style={{ marginTop: '6px', marginBottom: '6px', textTransform: 'none' }}>
+                <RemoveRedEyeTwoToneIcon /> &nbsp; Watch</Button>
         </Box>
     )
 }
