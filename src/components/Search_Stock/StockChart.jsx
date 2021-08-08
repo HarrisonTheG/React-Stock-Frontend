@@ -1,10 +1,14 @@
-import React from 'react'
+import { useEffect, useState } from 'react'
+import { Typography, Box, Divider } from '@material-ui/core'
+
 
 const StockChart = ({ stock }) => {
     return (
-        <div>
+        <Box width='45%' marginTop='24px'>
             {'Stock Chart of ' + stock}
-        </div>
+            <Box height='12px' />
+            <Divider />
+        </Box>
     )
 }
 

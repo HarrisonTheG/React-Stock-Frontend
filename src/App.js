@@ -7,7 +7,6 @@ import SearchStock from './components/Search_Stock/SearchStock.jsx'
 import Watchlist from './components/Watchlist/Watchlist.jsx'
 import History from './components/History/History.jsx'
 
-
 function App() {
   return (
     <div className="App">
