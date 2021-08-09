@@ -1,5 +1,5 @@
-import { useEffect } from 'react'
-import { IconButton, Paper, InputBase, Box } from '@material-ui/core'
+
+import { IconButton, InputBase, Box } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search';
 
 const SearchBar = ({ sendFromIcon, sendFromEnter }) => {

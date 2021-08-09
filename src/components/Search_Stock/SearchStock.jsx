@@ -1,4 +1,4 @@
-import { Typography, Box, Grid, Paper } from '@material-ui/core'
+import { Box, Grid } from '@material-ui/core'
 import { useState } from 'react'
 import StockChart from './StockChart'
 import Comment from './Comment'
@@ -9,10 +9,11 @@ const SearchStock = () => {
 
     const [searchTerm, setTerm] = useState('');
 
+    //search Bar callbacks
     const sendTermFromIcon = () => {
         var value = ''
         value = document.getElementById('searchField').value;
-        if (value != '')
+        if (value !== '')
             setTerm(value);
     }
 
@@ -20,7 +21,7 @@ const SearchStock = () => {
         var value = ''
         const searchField = document.getElementById('searchField');
         value = searchField.value;
-        if (e != null && e.key === 'Enter' && value != '') { //comes from enter
+        if (e !== null && e.key === 'Enter' && value !== '') { //comes from enter
             setTerm(value);
             searchField.blur();
         }

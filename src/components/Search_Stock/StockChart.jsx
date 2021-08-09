@@ -26,9 +26,7 @@ const StockChart = ({ stock }) => {
                 const req = await ChartService.getChartCandleData(stock);
                 const data = req.data;
 
-                if (data.status !== "ok") throw new Error('error from api server');
-
-                console.log(data);
+                //console.log(data);
                 const cdata = await data.map(d => { return { time: d.timestamp, open: parseFloat(d.open), high: parseFloat(d.high), low: parseFloat(d.low), close: parseFloat(d.close) } })
                 //plot the graph with data from API
                 candleSeries.setData(cdata);
