@@ -27,7 +27,7 @@ const SearchStock = () => {
     }
 
     return (
-        <Grid align='center' justify='center' width='45%'>
+        <Grid align='center' justify='center' width='55%'>
             <Box sx={{ height: '80px' }}></Box>
             <SearchBar sendFromIcon={sendTermFromIcon} sendFromEnter={sendTermFromEnter}></SearchBar>
             <StockHeader stock={searchTerm} />

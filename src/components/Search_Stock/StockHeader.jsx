@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Typography, Box, Grid, Button } from '@material-ui/core'
+import { Typography, Box, Button } from '@material-ui/core'
 import RemoveRedEyeTwoToneIcon from '@material-ui/icons/RemoveRedEyeTwoTone';
 import ArrowUpwardTwoToneIcon from '@material-ui/icons/ArrowUpwardTwoTone';
 import ArrowDownwardTwoToneIcon from '@material-ui/icons/ArrowDownwardTwoTone';
@@ -62,15 +62,15 @@ const StockHeader = ({ stock }) => {
     }, [])
 
     return (
-        <Box display='flex' width='45%' height='50px' marginTop='32px'>
+        <Box display='flex' width='55%' height='50px' marginTop='32px'>
             <Box display='flex' flex={6} flexDirection='row' justifyContent='flex-start' >
-                <Typography variant='h3' style={{ fontWeight: 700, fontSize: 40 }}>{'ETHUSD' + stock}</Typography> &nbsp; &nbsp;
+                <Typography variant='h3' style={{ fontWeight: 700, fontSize: '40sp' }}>{'ETHUSD' + stock}</Typography> &nbsp; &nbsp;
 
-                {wsStock && <Typography variant='h3' style={{ fontSize: 40 }}>{formatPrice(wsStock.price)}</Typography>} &nbsp; &nbsp;
-                {(wsStock.change < 0.0) ? <ArrowDownwardTwoToneIcon style={{ fill: 'red', marginTop: '16px' }} /> :
+                {wsStock && <Typography variant='h3' style={{ fontSize: '40sp' }}>{formatPrice(wsStock.price)}</Typography>} &nbsp; &nbsp;
+                {wsStock && (wsStock.change < 0.0) ? <ArrowDownwardTwoToneIcon style={{ fill: 'red', marginTop: '16px' }} /> :
                     <ArrowUpwardTwoToneIcon style={{ fill: 'green', marginTop: '16px' }} />}
 
-                <Typography variant='subtitle1' style={{ marginTop: '16px', color: 'green' }}>{formatPrice(wsStock.change) + ' (' + formatPrice(wsStock.change / wsStock.price * 100) + '%)'}</Typography>
+                {wsStock && <Typography variant='subtitle1' style={{ marginTop: '16px', color: 'green' }}>{formatPrice(wsStock.change) + ' (' + formatPrice(wsStock.change / wsStock.price * 100) + '%)'}</Typography>}
             </Box >
 
             {isWatched ? <Button onClick={onWatchChange} variant='outlined' color='primary' size='small' marginRight='0px' flex={1} style={{ marginTop: '6px', marginBottom: '6px', textTransform: 'none' }}>
