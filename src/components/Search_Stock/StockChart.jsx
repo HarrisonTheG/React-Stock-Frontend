@@ -41,7 +41,6 @@ const StockChart = ({ stock }) => {
 
     return (
         <Box width='55%' marginTop='24px' marginBottom='24px'>
-            {'Stock Chart of ' + stock}
             <div id='tvchart' width='100%'></div>
             <Box height='12px' />
             <Divider />

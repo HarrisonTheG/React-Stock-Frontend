@@ -34,10 +34,10 @@ const Comment = ({ stock }) => {
         {isCommentShown && <Paper style={{padding: '16px'}} elevation={2} >
             <Grid container wrap="nowrap" spacing={2} >
                 <Grid item>
-                    <AccountCircleIcon alt="Remy Sharp" src='' />
+                    <AccountCircleIcon />
                 </Grid>
-                <Grid justifyContent="left" item xs zeroMinWidth>
-                    <Typography style={{ margin: 0, textAlign: "left" }}>Michel Michel</Typography>
+                <Grid item xs zeroMinWidth>
+                    <Typography style={{ margin: 0, textAlign: "left" }}>Donald MF Trump</Typography>
                     <p style={{ textAlign: "left", textAlign: 'justify', fontSize: '14px', marginRight: '16px' }}>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean
                         luctus ut est sed faucibus. Duis bibendum ac ex vehicula laoreet.
