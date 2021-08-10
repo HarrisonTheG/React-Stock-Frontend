@@ -10,7 +10,7 @@ import ChartService from '../../services/ChartService'
 //configure toast message for this app
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import axios from 'axios';
+
 toast.configure();
 
 const { Buffer } = require('buffer/');

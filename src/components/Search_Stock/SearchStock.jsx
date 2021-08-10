@@ -50,9 +50,10 @@ const SearchStock = () => {
         <Grid align='center' width='55%'>
             <Box sx={{ height: '80px' }}></Box>
             <SearchBar sendFromIcon={sendTermFromIcon} sendFromEnter={sendTermFromEnter}></SearchBar>
-            <StockHeader stock={stockInfo.stockTicker} initialPrice={stockInfo.initialPrice} />
+            {stockInfo.stockTicker ? <div><StockHeader stock={stockInfo.stockTicker} initialPrice={stockInfo.initialPrice} />
             <StockChart stock={stockInfo.stockTicker} />
-            <Comment stock={stockInfo.stockTicker} />
+            <Comment stock={stockInfo.stockTicker} /> </div>: <div></div>}
+            
         </Grid>
     );
 }
