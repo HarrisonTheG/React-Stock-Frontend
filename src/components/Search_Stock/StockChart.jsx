@@ -20,7 +20,7 @@ const StockChart = ({ stock }) => {
         chartElement.innerHTML = "";
         const chart = createChart(chartElement, chartProperties);
         const candleSeries = chart.addCandlestickSeries();
-
+        
         const populateChart = async () => {
             try {
                 const req = await ChartService.getChartCandleData(stock);
@@ -36,7 +36,7 @@ const StockChart = ({ stock }) => {
             }
         }
         populateChart();
-
+        
     }, [stock])
 
     return (
