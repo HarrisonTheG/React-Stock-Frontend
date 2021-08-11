@@ -6,6 +6,7 @@ import Navbar from './components/Navbar/Navbar.jsx'
 import SearchStock from './components/Search_Stock/SearchStock.jsx'
 import Watchlist from './components/Watchlist/Watchlist.jsx'
 import History from './components/History/History.jsx'
+import Register from './components/Login/Register'
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         <Route exact path="/watchlist" component={Watchlist}></Route>
         <Route exact path="/history" component={History}></Route>
         <Route exact path="/login" component={Login}></Route>
+        <Route exact path="/register" component={Register}></Route>
       </Switch>
     </div>
   );
