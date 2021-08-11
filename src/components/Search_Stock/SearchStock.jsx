@@ -1,38 +1,69 @@
-import { Typography, Box, Grid } from '@material-ui/core'
-import { useState } from 'react'
+import { Box, Grid } from '@material-ui/core'
+import { useState, useEffect } from 'react'
 import StockChart from './StockChart'
 import Comment from './Comment'
 import SearchBar from './SearchBar'
+import StockHeader from './StockHeader'
+import ChartService from '../../services/ChartService'
 
-const SearchStock = () => {
 
-    const [searchTerm, setTerm] = useState('');
+const SearchStock = (props) => {
 
+    const [stockInfo, setStockInfo] = useState({
+        stockTicker: null,
+        initialPrice: null
+    })
+
+    const getInitialPrice = async (ticker) => {
+        const req = await ChartService.getLatestClosingStockPrice(ticker);
+        const latestPrice = parseFloat(req.data.close);
+        setStockInfo({
+            stockTicker: ticker,
+            initialPrice: latestPrice
+        });
+        
+    }
+
+    //create a class of stock and with its initial value
+
+    //search Bar callbacks
     const sendTermFromIcon = () => {
         var value = ''
         value = document.getElementById('searchField').value;
-        if (value != '')
-            setTerm(value);
+        if (value !== ''){
+            getInitialPrice(value);
+        }
     }
 
     const sendTermFromEnter = (e) => {
         var value = ''
         const searchField = document.getElementById('searchField');
         value = searchField.value;
-        if (e != null && e.key === 'Enter' && value != '') { //comes from enter
-            setTerm(value);
+        if (e !== null && e.key === 'Enter' && value !== '') { //comes from enter
+            getInitialPrice(value);
             searchField.blur();
         }
     }
+   
+   const pathVariable = props.match.params.ticker;
+
+    useEffect(() => {
+        if(pathVariable !== ':ticker'){
+            getInitialPrice(pathVariable);
+        }
+    }, [pathVariable]);
 
     return (
-        <Grid align="center" width='60%'>
+        
+        <Grid align='center' width='55%'>
             <Box sx={{ height: '80px' }}></Box>
             <SearchBar sendFromIcon={sendTermFromIcon} sendFromEnter={sendTermFromEnter}></SearchBar>
-            <Typography>{'Stock Info of ' + searchTerm}</Typography>
-            <StockChart stock={searchTerm} />
-            <Comment stock={searchTerm} />
+            {stockInfo.stockTicker ? <div><StockHeader stock={stockInfo.stockTicker} initialPrice={stockInfo.initialPrice} />
+            <StockChart stock={stockInfo.stockTicker} />
+            <Comment stock={stockInfo.stockTicker} /> </div>: <div></div>}
+            
         </Grid>
+       
     );
 }
 
