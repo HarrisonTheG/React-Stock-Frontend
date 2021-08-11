@@ -55,7 +55,7 @@ const StockHeader = ({ stock, initialPrice }) => {
             resetStock(formatPrice(initialPrice));
 
         const ws = new WebSocket('wss://streamer.finance.yahoo.com');
-        const root = protobuf.load('./YPricingData.proto', (error, root) => {
+        const root = protobuf.load('/YPricingData.proto', (error, root) => {
 
             if (error) {
                 console.log(error);

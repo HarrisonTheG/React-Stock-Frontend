@@ -1,15 +1,14 @@
 import { Box, Grid } from '@material-ui/core'
-import { useState, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import StockChart from './StockChart'
 import Comment from './Comment'
 import SearchBar from './SearchBar'
 import StockHeader from './StockHeader'
 import ChartService from '../../services/ChartService'
 
-const SearchStock = () => {
 
-    //const [searchTerm, setTerm] = useState('');
-    
+const SearchStock = (props) => {
+
     const [stockInfo, setStockInfo] = useState({
         stockTicker: null,
         initialPrice: null
@@ -45,8 +44,17 @@ const SearchStock = () => {
             searchField.blur();
         }
     }
+   
+   const pathVariable = props.match.params.ticker;
+
+    useEffect(() => {
+        if(pathVariable !== ':ticker'){
+            getInitialPrice(pathVariable);
+        }
+    }, [pathVariable]);
 
     return (
+        
         <Grid align='center' width='55%'>
             <Box sx={{ height: '80px' }}></Box>
             <SearchBar sendFromIcon={sendTermFromIcon} sendFromEnter={sendTermFromEnter}></SearchBar>
@@ -55,6 +63,7 @@ const SearchStock = () => {
             <Comment stock={stockInfo.stockTicker} /> </div>: <div></div>}
             
         </Grid>
+       
     );
 }
 
