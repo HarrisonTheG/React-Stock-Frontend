@@ -1,11 +1,9 @@
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState } from 'react'
 import { Typography, Box, Button } from '@material-ui/core'
 import RemoveRedEyeTwoToneIcon from '@material-ui/icons/RemoveRedEyeTwoTone';
 import ArrowUpwardTwoToneIcon from '@material-ui/icons/ArrowUpwardTwoTone';
 import ArrowDownwardTwoToneIcon from '@material-ui/icons/ArrowDownwardTwoTone';
 import protobuf from 'protobufjs'
-
-import ChartService from '../../services/ChartService'
 
 //configure toast message for this app
 import { toast } from 'react-toastify';

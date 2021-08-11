@@ -1,9 +1,11 @@
-import React from 'react'
+import { useState, useRef }  from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Box, Grid, Table, TableHead, TableRow, TableCell, TableBody, TableContainer, Paper, IconButton } from '@material-ui/core'
 import SettingsIcon from '@material-ui/icons/Settings';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import { Link } from 'react-router-dom';
+
+import DeletePopup from './DeletePopup';
   
   const headers = ['No.', 'Stock Ticker', 'Company Name', 'Price (USD)' , 'Settings']
   const rows = [
@@ -23,6 +25,21 @@ import { Link } from 'react-router-dom';
 
 const Watchlist = () => {
     const classes = useStyles();
+
+    const [isDeleteBox, setIsDeleteBox] = useState(false)
+    //const [isSettings, setIsSettings] = useState(false)
+
+    //stock ticker and user info to send over to settings and delete pop up
+    const stockUser = useRef({
+        ticker: null,
+        user: null
+    })
+
+    const deleteIconClicked = (stockTicker) => {
+        stockUser.current.ticker = stockTicker;
+        setIsDeleteBox(!isDeleteBox);
+    }
+
     return (
         <Grid align='center' style={{ height: 400, width: '60%', marginLeft: 'auto', marginRight: 'auto'}} >
             <Box sx={{ height: '80px' }}></Box>
@@ -45,13 +62,16 @@ const Watchlist = () => {
               <TableCell align="left">{row.ticker}</TableCell>
               <TableCell align="left">{row.companyName}</TableCell>
               <TableCell align="left">{row.price}</TableCell>
-              <TableCell align="left" id={row.ticker}><IconButton size='small'><SettingsIcon /></IconButton>&nbsp;&nbsp;&nbsp;&nbsp;
-                <IconButton size='small'><DeleteOutlineIcon /></IconButton></TableCell>
+              <TableCell align="left" id={row.ticker}>
+                  <IconButton size='small'><SettingsIcon /></IconButton>&nbsp;&nbsp;&nbsp;&nbsp;
+                <IconButton size='small' onClick={() => deleteIconClicked(row.ticker)}><DeleteOutlineIcon /></IconButton></TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
     </TableContainer>
+
+    {isDeleteBox && <DeletePopup open={isDeleteBox} setIsDeleteBox= {() => setIsDeleteBox(!isDeleteBox)} stockUser={stockUser.current}/>}
         </Grid>
     )
 }
