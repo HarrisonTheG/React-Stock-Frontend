@@ -6,7 +6,7 @@ import TextField from '@material-ui/core/TextField';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import LockTwoToneIcon from '@material-ui/icons/LockTwoTone';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import {Paper} from "@material-ui/core";
@@ -14,7 +14,13 @@ import { loginStyles } from "../../stylings/LoginStyle.js";
 import {useState} from 'react'
 import UserService from '../../services/UserService';
 import{useHistory,useParams} from 'react-router-dom';
-
+import { makeStyles } from '@material-ui/core/styles';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import { LockOpenOutlined, LockOpenRounded, LockOpenSharp, LockOpenTwoTone } from '@material-ui/icons';
 
 function Copyright(props) {
 
@@ -37,6 +43,7 @@ export default function SignUp() {
   const [role,setrole]=useState('')   
   const history=useHistory();
   const [register,setregister]=useState(false);
+  const classes = loginStyles();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -69,89 +76,68 @@ export default function SignUp() {
   };
 
   return (
-    <Paper elevation={10} className={loginStyles().paperStyle}>
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <Box
-        sx={{
-          marginTop: 8,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-        }}
-      >
-        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Sign up
+    <Grid>
+      <Paper elevation={10} className={classes.paperStyle}>
+        <Grid align="center">
+          <Avatar className={classes.avatarStyle}>
+            <LockTwoToneIcon/>
+          </Avatar>
+          <h2>Register Account</h2>
+        </Grid>
+        <Box height="5px"></Box>
+        <form onSubmit={handleSubmit}>
+        <TextField
+          label="Username"
+          placeholder="Enter username"
+          fullWidth
+          required
+          value={userName}
+          onChange={(e)=>setuserName(e.target.value)}
+        ></TextField>
+        <Box height="5px"></Box>
+        <TextField
+          label="Password"
+          type="password"
+          placeholder="Enter password"
+          fullWidth
+          required
+          value={password}
+          onChange={(e)=>setpassword(e.target.value)}
+        ></TextField>
+        <Box height="5px"></Box>
+        <TextField
+          label="Email"
+          type="text"
+          placeholder="Enter email"
+          fullWidth
+          required
+          value={email}
+          onChange={(e)=>setEmail(e.target.value)}
+        ></TextField>
+        <Box height="10px"></Box>
+              <InputLabel>Role</InputLabel>
+        <Select
+          value={role}
+          onChange={(e)=>setrole(e.target.value)
+          }
+        >
+          <MenuItem value="USER">User</MenuItem>
+          <MenuItem value="ADMIN">Admin</MenuItem>
+
+        </Select>
+           
+        <Box height="24px"></Box>
+        <Button type="submit" color="primary" variant="contained" fullWidth>
+          login
+        </Button>
+        </form>
+        <Typography className={classes.registerStyle}>
+          Have an Account? &nbsp;
+          <Link onClick={()=>{history.push("/login")}} underline="hover">
+            Login here
+          </Link>
         </Typography>
-        <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                autoComplete="fname"
-                name="userName"
-                required
-                fullWidth
-                id="userName"
-                label="User Name"
-                autoFocus
-                value={userName}
-                onChange={(e)=>setuserName(e.target.value)}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                fullWidth
-                id="Role"
-                label="Role"
-                name="Role"
-                autoComplete="role"
-                value={role}
-                onChange={(e)=>setrole(e.target.value)}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                value={email}
-                onChange={(e)=>setEmail(e.target.value)}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                value={password}
-                onChange={(e)=>setpassword(e.target.value)}
-              />
-            </Grid>
-          </Grid>
-          <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-            Sign Up
-          </Button>
-          <Grid container justifyContent="flex-end">
-            <Grid item>
-              <Link href="#" variant="body2">
-                Already have an account? Sign in
-              </Link>
-            </Grid>
-          </Grid>
-        </Box>
-      </Box>
-    </Container>
-    </Paper>
+      </Paper>
+    </Grid>
   );
 }
