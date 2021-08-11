@@ -46,6 +46,10 @@ const Login = () => {
     const loginuser={username:userName,password:password}
     UserService.authenticateUser(loginuser).then(res=>(loginSuccessOrFail(res)));
   }
+  
+  const redirect=()=>{
+    history.push("/register")
+  }
 
   return (
     <Grid>
@@ -89,7 +93,7 @@ const Login = () => {
         </form>
         <Typography className={classes.registerStyle}>
           Don't have any account yet? &nbsp;
-          <Link href="/register" underline="hover">
+          <Link onClick={redirect} underline="hover">
             Register here
           </Link>
         </Typography>
