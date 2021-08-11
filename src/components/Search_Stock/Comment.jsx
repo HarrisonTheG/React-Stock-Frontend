@@ -2,6 +2,7 @@ import {useState} from 'react'
 import { Paper, Grid, Typography, Box, Button, IconButton } from '@material-ui/core'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import AddCommentOutlinedIcon from '@material-ui/icons/AddCommentOutlined';
+import AddComment from './AddComment'
 
 const ButtonStyle = {
         flex: 5,
@@ -12,8 +13,9 @@ const ButtonStyle = {
 const Comment = ({ stock }) => {
 
     const [isCommentShown, setShow] = useState(false)
+    const [isAddComment, setIsAddComment] = useState(false)
 
-    const buttonClick = () => {
+    const showButtonClick = () => {
 
         if(!isCommentShown){
             //retrieve all comments on specific stock
@@ -22,13 +24,17 @@ const Comment = ({ stock }) => {
         setShow(!isCommentShown);
     }
 
+    const addCommentClick = () => {
+        setIsAddComment(!isAddComment);
+    }
+
     return (
         <Box style={{width: '55%', marginTop: '24px', padding: '12px'}}>
             <Box display='flex' style={{marginBottom: '16px', m: '8px'}} >
         <Typography style={{flex: 30, textAlign: 'left', fontSize: 24}}>Comments </Typography>
-        <IconButton style={{flex: 1, marginRight: '16px'}} color='primary'><AddCommentOutlinedIcon /></IconButton>
-        {isCommentShown ? <Button onClick={buttonClick} style={ButtonStyle} color='primary' variant='outlined'>
-            Hide Comment</Button> : <Button onClick={buttonClick} style={ButtonStyle} color='primary' variant='contained'>
+        <IconButton onClick={addCommentClick} style={{flex: 1, marginRight: '16px'}} color='primary'><AddCommentOutlinedIcon /></IconButton>
+        {isCommentShown ? <Button onClick={showButtonClick} style={ButtonStyle} color='primary' variant='outlined'>
+            Hide Comment</Button> : <Button onClick={showButtonClick} style={ButtonStyle} color='primary' variant='contained'>
             Show Comment</Button> }
             </Box>
         {isCommentShown && <Paper style={{padding: '16px'}} elevation={2} >
@@ -55,6 +61,8 @@ const Comment = ({ stock }) => {
                 </Grid>
             </Grid>
         </Paper>}
+
+        <AddComment open={isAddComment} setAddComment={addCommentClick}/>
         
         </Box>
     )
