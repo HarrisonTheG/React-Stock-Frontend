@@ -43,7 +43,7 @@ const Comment = ({ stock }) => {
                     <AccountCircleIcon />
                 </Grid>
                 <Grid item xs zeroMinWidth>
-                    <Typography style={{ margin: 0, textAlign: "left" }}>Donald MF Trump</Typography>
+                    <Typography style={{ margin: 0, textAlign: "left" }}>Donald Trump</Typography>
                     <p style={{ textAlign: "left", textAlign: 'justify', fontSize: '14px', marginRight: '16px' }}>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean
                         luctus ut est sed faucibus. Duis bibendum ac ex vehicula laoreet.
@@ -63,7 +63,7 @@ const Comment = ({ stock }) => {
         </Paper>}
 
         <AddComment open={isAddComment} setAddComment={addCommentClick}/>
-        
+
         </Box>
     )
 }

@@ -6,6 +6,7 @@ import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import { Link } from 'react-router-dom';
 
 import DeletePopup from './DeletePopup';
+import SettingPopup from './SettingPopup';
   
   const headers = ['No.', 'Stock Ticker', 'Company Name', 'Price (USD)' , 'Settings']
   const rows = [
@@ -27,7 +28,7 @@ const Watchlist = () => {
     const classes = useStyles();
 
     const [isDeleteBox, setIsDeleteBox] = useState(false)
-    //const [isSettings, setIsSettings] = useState(false)
+    const [isSettings, setIsSettings] = useState(false)
 
     //stock ticker and user info to send over to settings and delete pop up
     const stockUser = useRef({
@@ -38,6 +39,11 @@ const Watchlist = () => {
     const deleteIconClicked = (stockTicker) => {
         stockUser.current.ticker = stockTicker;
         setIsDeleteBox(!isDeleteBox);
+    }
+
+    const settingIconClicked = (stockTicker) => {
+        stockUser.current.ticker = stockTicker;
+        setIsSettings(!isSettings);
     }
 
     return (
@@ -55,7 +61,7 @@ const Watchlist = () => {
         </TableHead>
         <TableBody>
           {rows.map((row, index) => (
-            <TableRow hover={true} key={row.id} onClick={() => console.log('row ' + row.id + ' is Clicked!')}>
+            <TableRow style={{cursor: 'pointer'}} hover={true} key={row.id} onClick={() => console.log('row ' + row.id + ' is Clicked!')}>
               <TableCell component="th" scope="row" align='left'>
                 &nbsp;{index + 1}
               </TableCell>
@@ -63,7 +69,7 @@ const Watchlist = () => {
               <TableCell align="left">{row.companyName}</TableCell>
               <TableCell align="left">{row.price}</TableCell>
               <TableCell align="left" id={row.ticker}>
-                  <IconButton size='small'><SettingsIcon /></IconButton>&nbsp;&nbsp;&nbsp;&nbsp;
+                  <IconButton size='small' onClick={() => settingIconClicked(row.ticker)}><SettingsIcon /></IconButton>&nbsp;&nbsp;&nbsp;&nbsp;
                 <IconButton size='small' onClick={() => deleteIconClicked(row.ticker)}><DeleteOutlineIcon /></IconButton></TableCell>
             </TableRow>
           ))}
@@ -72,6 +78,7 @@ const Watchlist = () => {
     </TableContainer>
 
     {isDeleteBox && <DeletePopup open={isDeleteBox} setIsDeleteBox= {() => setIsDeleteBox(!isDeleteBox)} stockUser={stockUser.current}/>}
+    {isSettings && <SettingPopup open={isSettings} setIsSettings= {() => setIsSettings(!isSettings)} stockUser={stockUser.current}/>}
         </Grid>
     )
 }
