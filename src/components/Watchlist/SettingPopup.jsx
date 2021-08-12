@@ -35,7 +35,7 @@ const SettingPopup = ({open, setIsSettings, stockUser}) => {
         <DialogTitle id="form-dialog-title">{'Alert Settings for ' + stockUser.ticker}</DialogTitle>
         <DialogContent>
         <DialogContentText>
-            <Typography style={{marginBottom: 32}}>Toggle the switch below to active alert</Typography>
+            <Typography style={{marginBottom: 32}}>Toggle the switch below to activate alert</Typography>
             {candleTypes.map((x) => (
             <Box align='center' display='flex' flexDirection='row' style={{marginBottom: 20}}>
                 <Box flex={1.5}><img src={x.imgSrc} width='40' height='40' flex={2}/></Box>

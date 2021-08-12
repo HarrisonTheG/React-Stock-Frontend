@@ -12,6 +12,7 @@ const SearchBar = ({ sendFromIcon, sendFromEnter }) => {
             <IconButton type="submit" aria-label="search" onClick={sendFromIcon} ><SearchIcon /></IconButton>
         </Box >
     );
+    
 }
 
 export default SearchBar

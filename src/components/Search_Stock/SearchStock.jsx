@@ -11,17 +11,20 @@ const SearchStock = (props) => {
 
     const [stockInfo, setStockInfo] = useState({
         stockTicker: null,
-        initialPrice: null
+        initialPrice: null,
+        sentiment: null
     })
 
     const getInitialPrice = async (ticker) => {
         const req = await ChartService.getLatestClosingStockPrice(ticker);
+        const sentimentReq = await ChartService.getLatestStockSentiment(ticker);
         const latestPrice = parseFloat(req.data.close);
+        const sentimentData = sentimentReq.data;
         setStockInfo({
             stockTicker: ticker,
-            initialPrice: latestPrice
+            initialPrice: latestPrice,
+            sentiment: sentimentData
         });
-        
     }
 
     //create a class of stock and with its initial value
@@ -58,7 +61,7 @@ const SearchStock = (props) => {
         <Grid align='center' width='55%'>
             <Box sx={{ height: '80px' }}></Box>
             <SearchBar sendFromIcon={sendTermFromIcon} sendFromEnter={sendTermFromEnter}></SearchBar>
-            {stockInfo.stockTicker ? <div><StockHeader stock={stockInfo.stockTicker} initialPrice={stockInfo.initialPrice} />
+            {stockInfo.stockTicker ? <div><StockHeader stock={stockInfo.stockTicker} initialPrice={stockInfo.initialPrice} sentiment={stockInfo.sentiment} />
             <StockChart stock={stockInfo.stockTicker} />
             <Comment stock={stockInfo.stockTicker} /> </div>: <div></div>}
             

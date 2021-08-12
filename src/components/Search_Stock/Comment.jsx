@@ -34,8 +34,8 @@ const Comment = ({ stock }) => {
         <Typography style={{flex: 30, textAlign: 'left', fontSize: 24}}>Comments </Typography>
         <IconButton onClick={addCommentClick} style={{flex: 1, marginRight: '16px'}} color='primary'><AddCommentOutlinedIcon /></IconButton>
         {isCommentShown ? <Button onClick={showButtonClick} style={ButtonStyle} color='primary' variant='outlined'>
-            Hide Comment</Button> : <Button onClick={showButtonClick} style={ButtonStyle} color='primary' variant='contained'>
-            Show Comment</Button> }
+            Hide</Button> : <Button onClick={showButtonClick} style={ButtonStyle} color='primary' variant='contained'>
+            Show</Button> }
             </Box>
         {isCommentShown && <Paper style={{padding: '16px'}} elevation={2} >
             <Grid container wrap="nowrap" spacing={2} >

@@ -40,7 +40,7 @@ const StockChart = ({ stock }) => {
     }, [stock])
 
     return (
-        <Box width='55%' marginTop='24px' marginBottom='24px'>
+        <Box width='55%' marginTop='40px' marginBottom='24px'>
             <div id='tvchart' width='100%'></div>
             <Box height='12px' />
             <Divider />

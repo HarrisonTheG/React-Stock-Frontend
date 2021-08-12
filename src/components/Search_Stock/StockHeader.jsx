@@ -32,7 +32,7 @@ function resetStock(latestPrice) {
         stockChange.innerHTML = ""
 }
 
-const StockHeader = ({ stock, initialPrice }) => {
+const StockHeader = ({ stock, initialPrice, sentiment }) => {
     //need to pass in stock ticker as parameter to websocket
     //Customise and design stock header
     const [wsStock, setStockPrice] = useState(null)
@@ -93,7 +93,8 @@ const StockHeader = ({ stock, initialPrice }) => {
     }, [stock])
 
     return (
-        <Box display='flex' width='55%' height='50px' marginTop='32px'>
+    <Box display='flex' flexDirection='column' width='55%' height='50px' marginTop='32px' >
+        <Box display='flex'>
             <Box display='flex' flex={6} flexDirection='row' >
                 <Typography variant='h3' style={{ fontWeight: 700, fontSize: '40sp' }}>{stock}</Typography> &nbsp; &nbsp;
 
@@ -111,6 +112,15 @@ const StockHeader = ({ stock, initialPrice }) => {
                     <RemoveRedEyeTwoToneIcon /> &nbsp; Watch</Button>}
 
         </Box>
+        <Box align="left" display='flex' flexDirection='row'>
+                <Typography>{'Sentiment: '} &nbsp; </Typography>
+                {(sentiment === 'neutral') ? 
+                <Typography color='textSecondary' style={{fontWeight: '700'}}>{sentiment.toUpperCase()}</Typography> : 
+                ((sentiment === 'negative') ? 
+                <Typography color='error' style={{fontWeight: '700'}}>{sentiment.toUpperCase()}</Typography> :
+                <span style={{color: 'green', fontWeight: '700'}}>{sentiment.toUpperCase()} </span>)}
+        </Box>
+    </Box>
     )
 }
 
