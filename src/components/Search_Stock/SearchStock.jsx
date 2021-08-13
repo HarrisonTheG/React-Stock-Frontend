@@ -6,8 +6,12 @@ import SearchBar from './SearchBar'
 import StockHeader from './StockHeader'
 import ChartService from '../../services/ChartService'
 
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 
 const SearchStock = (props) => {
+
+    const [isLoading, setIsLoading] = useState(false)
 
     const [stockInfo, setStockInfo] = useState({
         stockTicker: null,
@@ -16,15 +20,21 @@ const SearchStock = (props) => {
     })
 
     const getInitialPrice = async (ticker) => {
+        setIsLoading(true);
         const req = await ChartService.getLatestClosingStockPrice(ticker);
         const sentimentReq = await ChartService.getLatestStockSentiment(ticker);
         const latestPrice = parseFloat(req.data.close);
         const sentimentData = sentimentReq.data;
-        setStockInfo({
+
+        setIsLoading(() => {
+            setStockInfo({
             stockTicker: ticker,
             initialPrice: latestPrice,
             sentiment: sentimentData
         });
+        return false;}
+        );
+
     }
 
     //create a class of stock and with its initial value
@@ -59,12 +69,15 @@ const SearchStock = (props) => {
     return (
         
         <Grid align='center' width='55%'>
+            
             <Box sx={{ height: '80px' }}></Box>
             <SearchBar sendFromIcon={sendTermFromIcon} sendFromEnter={sendTermFromEnter}></SearchBar>
+            {isLoading ? <CircularProgress style={{marginTop: 160}}/> : <div>
             {stockInfo.stockTicker ? <div><StockHeader stock={stockInfo.stockTicker} initialPrice={stockInfo.initialPrice} sentiment={stockInfo.sentiment} />
             <StockChart stock={stockInfo.stockTicker} />
-            <Comment stock={stockInfo.stockTicker} /> </div>: <div></div>}
-            
+            <Comment stock={stockInfo.stockTicker} /> </div>: <div></div>}</div>
+
+            }
         </Grid>
        
     );
