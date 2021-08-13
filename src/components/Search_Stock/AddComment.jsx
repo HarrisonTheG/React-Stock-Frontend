@@ -13,7 +13,7 @@ const AddComment = ({open, setAddComment}) => {
     return (
         
     <Dialog open={open} onClose={setAddComment} aria-labelledby="form-dialog-title" fullWidth maxWidth='xs'>
-        <DialogTitle id="form-dialog-title">Add Comment</DialogTitle>
+        <DialogTitle id="form-dialog-title">Post Comment</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus

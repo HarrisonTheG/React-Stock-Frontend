@@ -3,12 +3,13 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Box, Grid, Table, TableHead, TableRow, TableCell, TableBody, TableContainer, Paper, IconButton } from '@material-ui/core'
 import SettingsIcon from '@material-ui/icons/Settings';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
+import EqualizerIcon from '@material-ui/icons/Equalizer';
 import { Link } from 'react-router-dom';
 
 import DeletePopup from './DeletePopup';
 import SettingPopup from './SettingPopup';
   
-  const headers = ['No.', 'Stock Ticker', 'Company Name', 'Price (USD)' , 'Settings']
+  const headers = ['No.', 'Stock Ticker', 'Company Name', 'Price (USD)' , 'Actions']
   const rows = [
     { id: 1, ticker: 'AAPL', companyName: 'Apple Inc.', price: 35.03 },
     { id: 2, ticker: 'PLTR', companyName: 'Palantir Tech', price: 42.12 },
@@ -47,7 +48,7 @@ const Watchlist = () => {
     }
 
     return (
-        <Grid align='center' style={{ height: 400, width: '60%', marginLeft: 'auto', marginRight: 'auto'}} >
+        <Grid align='center' style={{ height: 400, width: '55%', marginLeft: 'auto', marginRight: 'auto'}} >
             <Box sx={{ height: '80px' }}></Box>
             <Link path='/search/AMC' to='/search/AMC'><Typography>Watchlist page AMC</Typography></Link>
             <Typography variant='h5' align='left'> Stock Watchlist </Typography>
@@ -69,7 +70,9 @@ const Watchlist = () => {
               <TableCell align="left">{row.companyName}</TableCell>
               <TableCell align="left">{row.price}</TableCell>
               <TableCell align="left" id={row.ticker}>
-                  <IconButton size='small' onClick={() => settingIconClicked(row.ticker)}><SettingsIcon /></IconButton>&nbsp;&nbsp;&nbsp;&nbsp;
+                <IconButton path={'/search/'+ row.ticker } to={ '/search/' + row.ticker } component={Link} size='small'>
+                  <EqualizerIcon /></IconButton>&nbsp;&nbsp;&nbsp;&nbsp;
+                <IconButton size='small' onClick={() => settingIconClicked(row.ticker)}><SettingsIcon /></IconButton>&nbsp;&nbsp;&nbsp;&nbsp;
                 <IconButton size='small' onClick={() => deleteIconClicked(row.ticker)}><DeleteOutlineIcon /></IconButton></TableCell>
             </TableRow>
           ))}
