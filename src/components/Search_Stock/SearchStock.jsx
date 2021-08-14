@@ -67,17 +67,21 @@ const SearchStock = (props) => {
         }
     }
 
-    const sendTermFromEnter = (e) => {
-        var value = ''
-        const searchField = document.getElementById('searchField');
-        value = searchField.value;
-        if (e !== null && e.key === 'Enter' && value !== '') { //comes from enter
-            getInitialPrice(value);
-            searchField.blur();
-        }
-    }
+    // const sendTermFromEnter = (e) => {
+    //     var value = ''
+    //     const searchField = document.getElementById('searchField');
+    //     value = searchField.value;
+    //     if (e !== null && e.key === 'Enter' && value !== '') { //comes from enter
+    //         getInitialPrice(value);
+    //         searchField.blur();
+    //     }
+    // }
+    var pathVariable = props.match.params.ticker;
+
+    useEffect(()=>{
+        pathVariable = props.match.params.ticker;
+    })
    
-   const pathVariable = props.match.params.ticker;
 
     useEffect(() => {
         if(pathVariable !== ':ticker'){
@@ -90,7 +94,7 @@ const SearchStock = (props) => {
         <Grid align='center' width='55%'>
             
             <Box sx={{ height: '80px' }}></Box>
-            <SearchBar sendFromIcon={sendTermFromIcon} sendFromEnter={sendTermFromEnter}></SearchBar>
+            <SearchBar sendFromIcon={sendTermFromIcon}></SearchBar>
             {isError ? <ErrorPage /> : <div>
             {isLoading ? <CircularProgress style={{marginTop: 160}}/> : <div>
             {stockInfo.stockTicker ? <div><StockHeader 

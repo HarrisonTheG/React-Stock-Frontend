@@ -62,7 +62,7 @@ const Watchlist = () => {
         </TableHead>
         <TableBody>
           {rows.map((row, index) => (
-            <TableRow style={{cursor: 'pointer'}} hover={true} key={row.id} onClick={() => console.log('row ' + row.id + ' is Clicked!')}>
+            <TableRow hover={true} key={row.id} onClick={() => console.log('row ' + row.id + ' is Clicked!')}>
               <TableCell component="th" scope="row" align='left'>
                 &nbsp;{index + 1}
               </TableCell>
