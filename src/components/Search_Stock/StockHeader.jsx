@@ -32,7 +32,8 @@ function resetStock(latestPrice) {
         stockChange.innerHTML = ""
 }
 
-const StockHeader = ({ stock, initialPrice, sentiment }) => {
+const StockHeader = ({stock, initialPrice, sentiment, companyName}) => {
+
     //need to pass in stock ticker as parameter to websocket
     //Customise and design stock header
     const [wsStock, setStockPrice] = useState(null)
@@ -93,8 +94,12 @@ const StockHeader = ({ stock, initialPrice, sentiment }) => {
     }, [stock])
 
     return (
-    <Box display='flex' flexDirection='column' width='55%' height='50px' marginTop='32px' >
+    <Box display='flex' flexDirection='column' width='55%' height='60px' marginTop='32px' >
         <Box display='flex'>
+        <Box align='left' flex={2}><Typography variant='caption' >{companyName}</Typography></Box>
+        <Box align='right' flex={1}><Typography variant='caption' color='textSecondary'>Data from Yahoo Finance</Typography></Box>
+        </Box>
+        <Box display='flex'>   
             <Box display='flex' flex={6} flexDirection='row' >
                 <Typography variant='h3' style={{ fontWeight: 700, fontSize: '40sp' }}>{stock}</Typography> &nbsp; &nbsp;
 
