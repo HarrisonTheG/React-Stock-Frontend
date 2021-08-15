@@ -6,7 +6,7 @@ const AddComment = ({open, setAddComment}) => {
 
     const handleSubmissionAndClose = () => {
         //handle posting of comment here
-
+        //Math.floor(Date.now()/1000) for unix timestamp now in seconds
         setAddComment();
     }
 

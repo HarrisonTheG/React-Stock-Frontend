@@ -1,8 +1,9 @@
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import { Paper, Grid, Typography, Box, Button, IconButton } from '@material-ui/core'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import AddCommentOutlinedIcon from '@material-ui/icons/AddCommentOutlined';
 import AddComment from './AddComment'
+import StockService from '../../services/StockService'
 
 const ButtonStyle = {
         flex: 5,
@@ -11,9 +12,32 @@ const ButtonStyle = {
 }
 
 const Comment = ({ stock }) => {
-
+    
     const [isCommentShown, setShow] = useState(false)
     const [isAddComment, setIsAddComment] = useState(false)
+    const [comments, setComments] = useState([null])
+    //comments is array of object {user: , timestamp: , content: }
+    
+    const fetchComments = async (ticker) => {
+        
+        try{
+            const req = await StockService.getStockComments(ticker);
+            const commentData = req.data          
+            console.log(commentData)
+          
+            setComments(commentData.map((x) => {
+                return ({user: x.username, timestamp: x.commentDateTime, content: x.comment});
+            }))
+            
+
+        }catch(error){
+            console.log(error)
+        }
+    }
+
+    useEffect( () => {
+        fetchComments(stock)
+    }, [stock])
 
     const showButtonClick = () => {
 
@@ -37,30 +61,24 @@ const Comment = ({ stock }) => {
             Hide</Button> : <Button onClick={showButtonClick} style={ButtonStyle} color='primary' variant='contained'>
             Show</Button> }
             </Box>
-        {isCommentShown && <Paper style={{padding: '16px'}} elevation={2} >
-            <Grid container wrap="nowrap" spacing={2} >
-                <Grid item>
-                    <AccountCircleIcon />
-                </Grid>
-                <Grid item xs zeroMinWidth>
-                    <Typography style={{ margin: 0, textAlign: "left" }}>Donald Trump</Typography>
-                    <p style={{ textAlign: "left", textAlign: 'justify', fontSize: '14px', marginRight: '16px' }}>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean
-                        luctus ut est sed faucibus. Duis bibendum ac ex vehicula laoreet.
-                        Suspendisse congue vulputate lobortis. Pellentesque at interdum
-                        tortor. Quisque arcu quam, malesuada vel mauris et, posuere
-                        sagittis ipsum. Aliquam ultricies a ligula nec faucibus. In elit
-                        metus, efficitur lobortis nisi quis, molestie porttitor metus.
-                        Pellentesque et neque risus. Aliquam vulputate, mauris vitae
-                        tincidunt interdum, mauris mi vehicula urna, nec feugiat quam
-                        lectus vitae ex.{" "}
-                    </p>
-                    <p style={{ textAlign: "left", color: "gray", fontSize: '12px' }}>
-                        posted 1 minute ago
-                    </p>
-                </Grid>
+        {isCommentShown && (comments.length !== 0 ? 
+        <div>{comments.map((comment, index) => ( <Paper key={index} style={{padding: '16px', marginBottom: '16px'}} elevation={2} >
+        <Grid container wrap="nowrap" spacing={2} >
+            <Grid item>
+                <AccountCircleIcon />
             </Grid>
-        </Paper>}
+            <Grid item xs zeroMinWidth>
+                <Typography style={{ margin: 0, textAlign: "left" }}>{comment.user}</Typography>
+                <p style={{ textAlign: "left", textAlign: 'justify', fontSize: '14px', marginRight: '16px' }}>
+                    {comment.content}
+                </p>
+                <p style={{ textAlign: "left", color: "gray", fontSize: '12px' }}>
+                    {'posted on ' + comment.timestamp}
+                </p>
+            </Grid>
+        </Grid>
+    </Paper>))}</div>
+        : <Typography>There are no comments yet!</Typography>) }
 
         <AddComment open={isAddComment} setAddComment={addCommentClick}/>
 

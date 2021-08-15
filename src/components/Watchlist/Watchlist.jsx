@@ -71,8 +71,8 @@ const Watchlist = () => {
               <TableCell align="left">{row.price}</TableCell>
               <TableCell align="left" id={row.ticker}>
                 <IconButton path={'/search/'+ row.ticker } to={ '/search/' + row.ticker } component={Link} size='small'>
-                  <EqualizerIcon /></IconButton>&nbsp;&nbsp;&nbsp;&nbsp;
-                <IconButton size='small' onClick={() => settingIconClicked(row.ticker)}><SettingsIcon /></IconButton>&nbsp;&nbsp;&nbsp;&nbsp;
+                  <EqualizerIcon /></IconButton>&nbsp;&nbsp;&nbsp;
+                <IconButton size='small' onClick={() => settingIconClicked(row.ticker)}><SettingsIcon /></IconButton>&nbsp;&nbsp;&nbsp;
                 <IconButton size='small' onClick={() => deleteIconClicked(row.ticker)}><DeleteOutlineIcon /></IconButton></TableCell>
             </TableRow>
           ))}
