@@ -59,13 +59,13 @@ const SearchStock = (props) => {
     //create a class of stock and with its initial value
 
     //search Bar callbacks
-    const sendTermFromIcon = () => {
-        var value = ''
-        value = document.getElementById('searchField').value;
-        if (value !== ''){
-            getInitialPrice(value);
-        }
-    }
+    // const sendTermFromIcon = () => {
+    //     var value = ''
+    //     value = document.getElementById('searchField').value;
+    //     if (value !== ''){
+    //         getInitialPrice(value);
+    //     }
+    // }
 
     // const sendTermFromEnter = (e) => {
     //     var value = ''
@@ -94,7 +94,7 @@ const SearchStock = (props) => {
         <Grid align='center' width='55%'>
             
             <Box sx={{ height: '80px' }}></Box>
-            <SearchBar sendFromIcon={sendTermFromIcon}></SearchBar>
+            <SearchBar></SearchBar>
             {isError ? <ErrorPage /> : <div>
             {isLoading ? <CircularProgress style={{marginTop: 160}}/> : <div>
             {stockInfo.stockTicker ? <div><StockHeader 

@@ -6,7 +6,7 @@ import { Link, NavLink } from 'react-router-dom';
 import ChartService from '../../services/ChartService'
 import { useState }  from 'react'
 
-const SearchBar = ({ sendFromIcon }) => {
+const SearchBar = () => {
 
     const [top5Stock, setTop5] = useState(
         [{ticker: "AAPL", companyName: "APPLE INC"},
@@ -38,13 +38,13 @@ const SearchBar = ({ sendFromIcon }) => {
 
     return (
         <Box borderRadius='20px' border={1} borderColor='lightgray'
-            sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: '55%', paddingLeft: "24px" }}>
+            sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: '55%', paddingLeft: "12px" }}>
 
             <Autocomplete freeSolo style={{ ml: 1, flex: 2 }}
             options={top5Stock} 
             renderInput={(params) => (
-                <TextField
-                id='searchField' fullWidth autoFocus label="Search Stock"
+                <TextField style={{width: '95%'}}
+                id='searchField'  autoFocus label="Search Stock"
                 {...params} onChange={handleFieldChange}
                 />
                 
@@ -56,7 +56,7 @@ const SearchBar = ({ sendFromIcon }) => {
                 {option.ticker + ' - ' + option.companyName}</Typography></Box>}}
             />
             
-            <IconButton type="submit" aria-label="search" onClick={sendFromIcon} ><SearchIcon /></IconButton>
+           
         </Box >
     );
     
