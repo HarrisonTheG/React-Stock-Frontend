@@ -8,6 +8,8 @@ import ChartService from '../../services/ChartService'
 import ErrorPage from '../Error/ErrorPage'
 
 import CircularProgress from '@material-ui/core/CircularProgress';
+import SessionService from '../../session/SessionService'
+import sessionService from '../../session/SessionService'
 
 
 const SearchStock = (props) => {
@@ -55,37 +57,22 @@ const SearchStock = (props) => {
     } 
 
     }
-
-    //create a class of stock and with its initial value
-
-    //search Bar callbacks
-    // const sendTermFromIcon = () => {
-    //     var value = ''
-    //     value = document.getElementById('searchField').value;
-    //     if (value !== ''){
-    //         getInitialPrice(value);
-    //     }
-    // }
-
-    // const sendTermFromEnter = (e) => {
-    //     var value = ''
-    //     const searchField = document.getElementById('searchField');
-    //     value = searchField.value;
-    //     if (e !== null && e.key === 'Enter' && value !== '') { //comes from enter
-    //         getInitialPrice(value);
-    //         searchField.blur();
-    //     }
-    // }
     var pathVariable = props.match.params.ticker;
+    var currentStock = sessionService.getSessionStorageOrDefault('currentStock', null);
 
     useEffect(()=>{
         pathVariable = props.match.params.ticker;
+        currentStock = sessionService.getSessionStorageOrDefault('currentStock', null);
+        console.log(currentStock);
     })
    
 
     useEffect(() => {
         if(pathVariable !== ':ticker'){
             getInitialPrice(pathVariable);
+            SessionService.setSessionStorage('currentStock', pathVariable);
+        } else if (pathVariable == ':ticker' && currentStock !== null){
+            getInitialPrice(currentStock);
         }
     }, [pathVariable]);
 

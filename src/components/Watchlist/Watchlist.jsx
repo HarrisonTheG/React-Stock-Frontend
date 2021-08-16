@@ -1,4 +1,4 @@
-import { useState, useRef }  from 'react'
+import { useState, useRef, useEffect }  from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Box, Grid, Table, TableHead, TableRow, TableCell, TableBody, TableContainer, Paper, IconButton } from '@material-ui/core'
 import SettingsIcon from '@material-ui/icons/Settings';
@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 
 import DeletePopup from './DeletePopup';
 import SettingPopup from './SettingPopup';
+import SessionService from '../../session/SessionService'
   
   const headers = ['No.', 'Stock Ticker', 'Company Name', 'Price (USD)' , 'Actions']
   const rows = [
@@ -27,9 +28,21 @@ import SettingPopup from './SettingPopup';
 
 const Watchlist = () => {
     const classes = useStyles();
-
+    
+    const [isLogin, setIsLogin] = useState(false)
     const [isDeleteBox, setIsDeleteBox] = useState(false)
     const [isSettings, setIsSettings] = useState(false)
+
+    var user = SessionService.getSessionStorageOrDefault('username', null);
+
+    useEffect(() => {
+      //console.log(SessionService.getSessionStorageOrDefault('username', null));
+      user = SessionService.getSessionStorageOrDefault('username', null); 
+    })
+
+    useEffect(() => {
+      setIsLogin(SessionService.getSessionStorageOrDefault('username', null) !== null);
+    }, [user])
 
     //stock ticker and user info to send over to settings and delete pop up
     const stockUser = useRef({
@@ -49,6 +62,8 @@ const Watchlist = () => {
 
     return (
         <Grid align='center' style={{ height: 400, width: '55%', marginLeft: 'auto', marginRight: 'auto'}} >
+
+          {isLogin ? <div> 
             <Box sx={{ height: '80px' }}></Box>
             <Link path='/search/AMC' to='/search/AMC'><Typography>Watchlist page AMC</Typography></Link>
             <Typography variant='h5' align='left'> Stock Watchlist </Typography>
@@ -79,6 +94,11 @@ const Watchlist = () => {
         </TableBody>
       </Table>
     </TableContainer>
+          </div> : 
+          <Box style={{marginTop: 120}}>
+          <Typography variant='h5'>Please Login to unlock this feature</Typography></Box>
+          }
+            
 
     {isDeleteBox && <DeletePopup open={isDeleteBox} setIsDeleteBox= {() => setIsDeleteBox(!isDeleteBox)} stockUser={stockUser.current}/>}
     {isSettings && <SettingPopup open={isSettings} setIsSettings= {() => setIsSettings(!isSettings)} stockUser={stockUser.current}/>}

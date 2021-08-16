@@ -16,6 +16,7 @@ import { loginStyles } from "../../stylings/LoginStyle.js";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import{useHistory,useParams} from 'react-router-dom';
 import UserService from '../../services/UserService';
+import SessionService from '../../session/SessionService'
 
 const Login = () => {
   const history=useHistory();
@@ -24,6 +25,7 @@ const Login = () => {
 
   const [userName, setuserName] = useState("");
   const [password, setpassword] = useState("");
+  const [isSuccess, setIsSuccess] = useState(true);
 
   function validateForm() {
     return userName.length > 0 && password.length > 0;
@@ -31,11 +33,13 @@ const Login = () => {
 
   const loginSuccessOrFail=(response)=>{
     if(response.status===200){
+      SessionService.setSessionStorage('username', userName);
+      console.log(userName);
       history.push("/watchlist");
     }
     else{
       console.log(response.status);
-      
+      setIsSuccess(false);
     }
     return;
   };
@@ -97,6 +101,10 @@ const Login = () => {
             Register here
           </Link>
         </Typography>
+        {isSuccess ? <div/> : <Box style={{marginTop: 16}}>
+          <Typography color='error' variant='body2'>Information above is incorrect. Please try again!
+          </Typography></Box>}
+        
       </Paper>
     </Grid>
    

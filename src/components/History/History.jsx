@@ -1,15 +1,22 @@
-import {useState, useRef} from 'react'
+import {useState, useRef, useEffect} from 'react'
 import { Typography, Box, Button, Divider } from '@material-ui/core'
 import BarChartIcon from '@material-ui/icons/BarChart';
 import ChartService from '../../services/ChartService'
 import FormSelect from './FormSelect'
 import AlertContent from './AlertContent'
+import SessionService from '../../session/SessionService'
 
 
 //create button to scan for each watchlist stocks previous 200 days. Replace when pressed again.
 const History = () => {
     const [candleHistory, setCandleHistory] = useState(null);
     const selectedStock = useRef('')
+    const [isLogin, setIsLogin] = useState(false);
+
+    useEffect(() => {
+        //console.log(SessionService.getSessionStorageOrDefault('username', null));
+        setIsLogin(SessionService.getSessionStorageOrDefault('username', null) !== null);
+      })
 
     const setSelectedStock = (value) => {
         selectedStock.current = value;
@@ -25,6 +32,7 @@ const History = () => {
 
     return (
         <Box marginLeft='auto' marginRight='auto' width="55%">
+            { isLogin ? <div>
             <Box sx={{ height: '80px' }}></Box>
             <Typography variant='h5' align='left'> Alert History </Typography>
             <Box sx={{ height: '24px' }}></Box>
@@ -37,7 +45,11 @@ const History = () => {
             <Box sx={{ height: '16px' }}></Box>
             <Divider />
             <Box sx={{ height: '24px' }}></Box>
-            <AlertContent />
+            <AlertContent /> </div> : 
+
+            <Box style={{marginTop: 120}}  marginLeft='auto' marginRight='auto'>
+          <Typography variant='h5' align='center'>Please Login to unlock this feature</Typography></Box>
+          }
         </Box>
     )
 }
