@@ -9,22 +9,25 @@ import { Link } from 'react-router-dom';
 import DeletePopup from './DeletePopup';
 import SettingPopup from './SettingPopup';
 import SessionService from '../../session/SessionService';
+import SessionDataService from '../../services/SessionDataService'
   
-  const headers = ['No.', 'Stock Ticker', 'Company Name', 'Price (USD)' , 'Actions']
-  const rows = [
-    { id: 1, ticker: 'AAPL', companyName: 'Apple Inc.', price: 35.03 },
-    { id: 2, ticker: 'PLTR', companyName: 'Palantir Tech', price: 42.12 },
-    { id: 3, ticker: 'TSLA', companyName: 'Tesla', price: 45.56 },
-    { id: 4, ticker: 'SOFI', companyName: 'Sofi Tech', price: 16.65 },
-    { id: 5, ticker: 'BYND', companyName: 'Beyond Meat', price: 0.78 },
-    { id: 6, ticker: 'SFT', companyName: 'Shift Tech', price: 150.34 },
-  ];
+  var headers = ['No.', 'Stock Ticker', 'Company Name' , 'Actions']
+  // const rows = [
+  //   { id: 1, ticker: 'AAPL', companyName: 'Apple Inc.'},
+  //   { id: 2, ticker: 'PLTR', companyName: 'Palantir Tech' },
+  //   { id: 3, ticker: 'TSLA', companyName: 'Tesla'},
+  //   { id: 4, ticker: 'SOFI', companyName: 'Sofi Tech'},
+  //   { id: 5, ticker: 'BYND', companyName: 'Beyond Meat'},
+  //   { id: 6, ticker: 'SFT', companyName: 'Shift Tech'},
+  // ];
 
   const useStyles = makeStyles({
     table: {
       minWidth: 650,
     },
   });
+
+ 
 
 const Watchlist = () => {
     const classes = useStyles();
@@ -33,15 +36,30 @@ const Watchlist = () => {
     const [isDeleteBox, setIsDeleteBox] = useState(false)
     const [isSettings, setIsSettings] = useState(false)
 
+    const [watchlist, setWatchlist] = useState(null)
+
     var user = SessionService.getSessionStorageOrDefault('username', null);
+    //var firstTimeLogin = true;
 
-    useEffect(() => {
-      //console.log(SessionService.getSessionStorageOrDefault('username', null));
-      user = SessionService.getSessionStorageOrDefault('username', null); 
-    })
+    // useEffect(() => {
+    //   //console.log(SessionService.getSessionStorageOrDefault('username', null));
+    //   if(firstTimeLogin){
+    //     user = SessionService.getSessionStorageOrDefault('username', null); 
+    //     headers = ['No.', 'Stock Ticker', 'Company Name' , 'Actions'];
+    //     setWatchlist(SessionDataService.getUserWatchlist());
+    //     firstTimeLogin = false;
+    //   }
+    //   console.log('this is executed')
+    // }, [firstTimeLogin])
 
-    useEffect(() => {
-      setIsLogin(SessionService.getSessionStorageOrDefault('username', null) !== null);
+
+    useEffect(() => {//executed everytime navigated through tab bar
+      
+      setWatchlist(() => {
+        setIsLogin(SessionService.getSessionStorageOrDefault('username', null) !== null);
+        return SessionDataService.getUserWatchlist();
+      })
+
     }, [user])
 
     //stock ticker and user info to send over to settings and delete pop up
@@ -52,11 +70,13 @@ const Watchlist = () => {
 
     const deleteIconClicked = (stockTicker) => {
         stockUser.current.ticker = stockTicker;
+        stockUser.current.user = user;
         setIsDeleteBox(!isDeleteBox);
     }
 
     const settingIconClicked = (stockTicker) => {
         stockUser.current.ticker = stockTicker;
+        stockUser.current.user = user;
         setIsSettings(!isSettings);
     }
 
@@ -65,10 +85,10 @@ const Watchlist = () => {
 
           {isLogin ? <div> 
             <Box sx={{ height: '80px' }}></Box>
-            <Link path='/search/AMC' to='/search/AMC'><Typography>Watchlist page AMC</Typography></Link>
             <Typography variant='h5' align='left'> Stock Watchlist </Typography>
             <Box sx={{ height: '24px' }}></Box>
-    <TableContainer component={Paper}>
+
+            {watchlist !== null ?  <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="simple table">
         <TableHead bgcolor='lightgrey' >
           <TableRow>
@@ -76,31 +96,35 @@ const Watchlist = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row, index) => (
-            <TableRow hover={true} key={row.id} onClick={() => console.log('row ' + row.id + ' is Clicked!')}>
+          {watchlist.map((row, index) => (
+            <TableRow hover={true} key={index} onClick={() => console.log('row ' + row.stockticker + ' is Clicked!')}>
               <TableCell component="th" scope="row" align='left'>
                 &nbsp;{index + 1}
               </TableCell>
-              <TableCell align="left">{row.ticker}</TableCell>
-              <TableCell align="left">{row.companyName}</TableCell>
-              <TableCell align="left">{row.price}</TableCell>
-              <TableCell align="left" id={row.ticker}>
-                <IconButton path={'/search/'+ row.ticker } to={ '/search/' + row.ticker } component={Link} size='small'>
-                  <EqualizerIcon /></IconButton>&nbsp;&nbsp;&nbsp;
-                <IconButton size='small' onClick={() => settingIconClicked(row.ticker)}><SettingsIcon /></IconButton>&nbsp;&nbsp;&nbsp;
-                <IconButton size='small' onClick={() => deleteIconClicked(row.ticker)}><DeleteOutlineIcon /></IconButton></TableCell>
+              <TableCell align="left">{row.stockticker}</TableCell>
+              <TableCell align="left">{row.stockname}</TableCell>
+              <TableCell align="left" id={row.stockticker}>
+                <IconButton path={'/search/'+ row.stockticker } to={ '/search/' + row.stockticker } component={Link} size='small'>
+                  <EqualizerIcon /></IconButton>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <IconButton size='small' onClick={() => settingIconClicked(row.stockticker)}><SettingsIcon /></IconButton>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <IconButton size='small' onClick={() => deleteIconClicked(row.stockticker)}><DeleteOutlineIcon /></IconButton></TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
-    </TableContainer>
+    </TableContainer> 
+        : 
+        <Box marginLeft='auto' marginRight='auto'>
+        <Typography variant='h5'> There are no stocks in watchlist yet!</Typography></Box>
+      }
+   
           </div> : 
           <Box style={{marginTop: 120}}>
           <Typography variant='h5'>Please Login to unlock this feature</Typography></Box>
           }
             
 
-    {isDeleteBox && <DeletePopup open={isDeleteBox} setIsDeleteBox= {() => setIsDeleteBox(!isDeleteBox)} stockUser={stockUser.current}/>}
+    {isDeleteBox && <DeletePopup open={isDeleteBox} setIsDeleteBox= {() => setIsDeleteBox(!isDeleteBox)} stockUser={stockUser.current} setWatchlist={setWatchlist}/>}
     {isSettings && <SettingPopup open={isSettings} setIsSettings= {() => setIsSettings(!isSettings)} stockUser={stockUser.current}/>}
         </Grid>
     )

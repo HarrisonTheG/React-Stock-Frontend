@@ -1,12 +1,27 @@
 import React from 'react'
 import { Button, Dialog, DialogContent, DialogTitle, DialogContentText, DialogActions } from '@material-ui/core'
+import WatchlistService from '../../services/WatchlistService'
+import SessionDataService from '../../services/SessionDataService'
 
-const DeletePopup = ({open, setIsDeleteBox, stockUser}) => {
 
-    const handleDeletionAndClose = () => {
+const DeletePopup = ({open, setIsDeleteBox, stockUser, setWatchlist}) => {
+
+    const handleDeletionAndClose = async () => {
         //delete stock watchlist from user and remove all alert settings
+        try{
+        await WatchlistService.deleteStockWatchlist(stockUser.ticker, stockUser.user);
+        SessionDataService.deleteStockToWatchlist(stockUser.ticker)
+        //console.log(SessionDataService.getUserWatchlist());
+        } catch(error) {
+          console.log(error);
+        }
 
-        setIsDeleteBox();
+        setWatchlist(() => {
+          setIsDeleteBox();
+          return SessionDataService.getUserWatchlist();
+        })
+        
+        
     }
 
     return (

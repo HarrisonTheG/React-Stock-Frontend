@@ -17,6 +17,8 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import{useHistory,useParams} from 'react-router-dom';
 import UserService from '../../services/UserService';
 import SessionService from '../../session/SessionService'
+import WatchlistService from "../../services/WatchlistService.js";
+import SessionDataService from "../../services/SessionDataService.js";
 
 const Login = () => {
   const history=useHistory();
@@ -31,11 +33,20 @@ const Login = () => {
     return userName.length > 0 && password.length > 0;
   }
 
+  const loadWatchlist = async (loginUser) => {
+        const req = await WatchlistService.getStockWatchlist(loginUser);
+        const data = req.data;
+        //console.log(data);
+        SessionDataService.setUserWatchlist(data);
+        //console.log(SessionDataService.getUserWatchlist());
+  }
+
   const loginSuccessOrFail=(response)=>{
     if(response.status===200){
       SessionService.setSessionStorage('username', userName);
-      console.log(userName);
-      history.push("/watchlist");
+      //console.log(userName);
+      loadWatchlist(userName);
+      history.push("/search/:ticker");
     }
     else{
       console.log(response.status);

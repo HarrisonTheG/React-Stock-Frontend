@@ -5,6 +5,9 @@ import ArrowUpwardTwoToneIcon from '@material-ui/icons/ArrowUpwardTwoTone';
 import ArrowDownwardTwoToneIcon from '@material-ui/icons/ArrowDownwardTwoTone';
 import protobuf from 'protobufjs'
 
+import WatchlistService from '../../services/WatchlistService'
+import SessionDataService from '../../services/SessionDataService';
+
 //configure toast message for this app
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -39,16 +42,29 @@ const StockHeader = ({stock, initialPrice, sentiment, companyName, user}) => {
     const [wsStock, setStockPrice] = useState(null)
     const [isWatched, setIsWatched] = useState(false)
 
-    const onWatchChange = () => {
-        if (!isWatched)
+    const onWatchChange = async () => {
+        if (!isWatched){
+            //post stock add to db
+            await WatchlistService.addStockWatchlist(stock, user);
+            SessionDataService.addStockToWatchlist(stock, companyName);
+            //console.log(SessionDataService.getUserWatchlist());
             toast.info('Added To Watchlist', { autoClose: 2500, position: toast.POSITION.BOTTOM_RIGHT })
+        }
 
-        setIsWatched(!isWatched);
+        setIsWatched(true);
     }
 
     //Will execute everytime this component re-renders. Should change to only if stock ticker changes (add stock dependency)
     useEffect(() => {
-
+        //console.log("stock has changed")
+        //check if this stock has been in user watchlist
+        if(user !== null) {
+        if(SessionDataService.checkIsStockWatched(stock)){
+            
+            setIsWatched(true)
+            console.log(stock + ' is watched')
+            }
+        }
         //reset stock price info whenever stock changes and get the latest closing price of stock to display
         if(initialPrice !== null)
             resetStock(formatPrice(initialPrice));
@@ -114,7 +130,7 @@ const StockHeader = ({stock, initialPrice, sentiment, companyName, user}) => {
 
                 {wsStock && <Typography id='stockChange' variant='subtitle1' style={{ marginTop: '16px', color: (wsStock.change < 0.0) ? 'red' : 'green' }}>{formatPrice(wsStock.change) + ' (' + formatPrice(wsStock.change / wsStock.price * 100) + '%)'}</Typography>}
             </Box >
-            {isWatched ? <Button onClick={onWatchChange} variant='outlined' color='primary' size='small' flex={1} style={watchEnabled}>
+            {isWatched ? <Button disabled onClick={onWatchChange} variant='outlined' color='primary' size='small' flex={1} style={watchEnabled}>
                 <RemoveRedEyeTwoToneIcon /> &nbsp; Watching</Button> : 
                 <div> {user == null ?  
                     <Button disabled variant='outlined' size='small' flex={1} style={watchEnabled}>
