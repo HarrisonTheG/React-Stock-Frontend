@@ -32,7 +32,7 @@ function resetStock(latestPrice) {
         stockChange.innerHTML = ""
 }
 
-const StockHeader = ({stock, initialPrice, sentiment, companyName}) => {
+const StockHeader = ({stock, initialPrice, sentiment, companyName, user}) => {
 
     //need to pass in stock ticker as parameter to websocket
     //Customise and design stock header
@@ -93,6 +93,10 @@ const StockHeader = ({stock, initialPrice, sentiment, companyName}) => {
 
     }, [stock])
 
+    const watchEnabled = {
+        marginTop: 12, textTransform: 'none' 
+    }
+
     return (
     <Box display='flex' flexDirection='column' width='55%' height='60px' marginTop='32px' >
         <Box display='flex'>
@@ -110,11 +114,14 @@ const StockHeader = ({stock, initialPrice, sentiment, companyName}) => {
 
                 {wsStock && <Typography id='stockChange' variant='subtitle1' style={{ marginTop: '16px', color: (wsStock.change < 0.0) ? 'red' : 'green' }}>{formatPrice(wsStock.change) + ' (' + formatPrice(wsStock.change / wsStock.price * 100) + '%)'}</Typography>}
             </Box >
-
-            {isWatched ? <Button onClick={onWatchChange} variant='outlined' color='primary' size='small' flex={1} style={{ marginTop: '6px', marginBottom: '6px', textTransform: 'none' }}>
-                <RemoveRedEyeTwoToneIcon /> &nbsp; Watching</Button> :
-                <Button onClick={onWatchChange} variant='contained' color='primary' size='small' flex={1} style={{ marginTop: '6px', marginBottom: '6px', textTransform: 'none' }}>
-                    <RemoveRedEyeTwoToneIcon /> &nbsp; Watch</Button>}
+            {isWatched ? <Button onClick={onWatchChange} variant='outlined' color='primary' size='small' flex={1} style={watchEnabled}>
+                <RemoveRedEyeTwoToneIcon /> &nbsp; Watching</Button> : 
+                <div> {user == null ?  
+                    <Button disabled variant='outlined' size='small' flex={1} style={watchEnabled}>
+                    <RemoveRedEyeTwoToneIcon /> &nbsp; Watch</Button>
+                    : 
+                <Button onClick={onWatchChange} variant='contained' color='primary' size='small' flex={1} style={watchEnabled}>
+                    <RemoveRedEyeTwoToneIcon /> &nbsp; Watch</Button>} </div> }
 
         </Box>
         <Box align="left" display='flex' flexDirection='row'>
@@ -127,6 +134,8 @@ const StockHeader = ({stock, initialPrice, sentiment, companyName}) => {
         </Box>
     </Box>
     )
+
+
 }
 
 export default StockHeader

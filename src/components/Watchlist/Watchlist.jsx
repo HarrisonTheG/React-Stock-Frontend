@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 
 import DeletePopup from './DeletePopup';
 import SettingPopup from './SettingPopup';
-import SessionService from '../../session/SessionService'
+import SessionService from '../../session/SessionService';
   
   const headers = ['No.', 'Stock Ticker', 'Company Name', 'Price (USD)' , 'Actions']
   const rows = [

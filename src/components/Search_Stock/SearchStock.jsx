@@ -59,11 +59,13 @@ const SearchStock = (props) => {
     }
     var pathVariable = props.match.params.ticker;
     var currentStock = sessionService.getSessionStorageOrDefault('currentStock', null);
+    var user = SessionService.getSessionStorageOrDefault('username', null);
 
     useEffect(()=>{
         pathVariable = props.match.params.ticker;
         currentStock = sessionService.getSessionStorageOrDefault('currentStock', null);
-        console.log(currentStock);
+        user = SessionService.getSessionStorageOrDefault('username', null);
+        //console.log(currentStock);
     })
    
 
@@ -86,9 +88,9 @@ const SearchStock = (props) => {
             {isLoading ? <CircularProgress style={{marginTop: 160}}/> : <div>
             {stockInfo.stockTicker ? <div><StockHeader 
                 stock={stockInfo.stockTicker} initialPrice={stockInfo.initialPrice} 
-                sentiment={stockInfo.sentiment} companyName={stockInfo.companyName}  />
+                sentiment={stockInfo.sentiment} companyName={stockInfo.companyName} user={user} />
             <StockChart stock={stockInfo.stockTicker} />
-            <Comment stock={stockInfo.stockTicker} /> </div>: <div></div>}</div>
+            <Comment stock={stockInfo.stockTicker} user={user}/> </div>: <div></div>}</div>
 
                 } </div>
             }

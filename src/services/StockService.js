@@ -7,6 +7,15 @@ class StockService {
     const url = STOCK_COMMENT_API_URL + ticker;
     return axios.get(url);
   }
+
+  postStockComment(ticker, comment) {
+    const url = STOCK_COMMENT_API_URL + ticker;
+    return axios.post(url, JSON.stringify(comment), {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  }
 }
 
 export default new StockService();

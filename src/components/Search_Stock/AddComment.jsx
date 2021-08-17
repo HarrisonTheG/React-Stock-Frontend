@@ -1,12 +1,27 @@
 import React from 'react'
 import { Button, Dialog, DialogContent, DialogTitle, DialogContentText, DialogActions, TextField } from '@material-ui/core'
+import StockService from '../../services/StockService'
 
 
-const AddComment = ({open, setAddComment}) => {
+const AddComment = ({open, setAddComment, addComments, stock, user}) => {
 
-    const handleSubmissionAndClose = () => {
+    const handleSubmissionAndClose = async () => {
         //handle posting of comment here
-        //Math.floor(Date.now()/1000) for unix timestamp now in seconds
+        
+        const commentContent = document.getElementById('addComment').value;
+        const postComment = {username: user, commentDateTime: Math.floor(Date.now()/1000), stockticker: stock, comment: commentContent}
+
+        try{
+            const Resp = await StockService.postStockComment(stock, postComment)
+            const data = Resp.data;
+            //console.log(Resp.data)
+            const comment = {...data, user: data.username, timestamp: data.commentDateTime, content: data.comment}
+            //console.log(comment);
+            addComments(comment);
+        }catch (error){
+          console.log(error)
+        }
+
         setAddComment();
     }
 

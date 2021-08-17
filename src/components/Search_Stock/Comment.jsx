@@ -11,12 +11,16 @@ const ButtonStyle = {
         margin: '4px',
 }
 
-const Comment = ({ stock }) => {
+const Comment = ({ stock, user }) => {
     
     const [isCommentShown, setShow] = useState(false)
     const [isAddComment, setIsAddComment] = useState(false)
     const [comments, setComments] = useState([null])
     //comments is array of object {user: , timestamp: , content: }
+
+    const addComments = (newComment) => {
+        setComments([newComment, ...comments]);
+    }
     
     const fetchComments = async (ticker) => {
         
@@ -56,7 +60,9 @@ const Comment = ({ stock }) => {
         <Box style={{width: '55%', marginTop: '24px', padding: '12px'}}>
             <Box display='flex' style={{marginBottom: '16px', m: '8px'}} >
         <Typography style={{flex: 30, textAlign: 'left', fontSize: 24}}>Comments </Typography>
+        {user == null ? <IconButton disabled style={{flex: 1, marginRight: '16px'}}><AddCommentOutlinedIcon /></IconButton> : 
         <IconButton onClick={addCommentClick} style={{flex: 1, marginRight: '16px'}} color='primary'><AddCommentOutlinedIcon /></IconButton>
+        }
         {isCommentShown ? <Button onClick={showButtonClick} style={ButtonStyle} color='primary' variant='outlined'>
             Hide</Button> : <Button onClick={showButtonClick} style={ButtonStyle} color='primary' variant='contained'>
             Show</Button> }
@@ -80,7 +86,7 @@ const Comment = ({ stock }) => {
     </Paper>))}</div>
         : <Typography>There are no comments yet!</Typography>) }
 
-        <AddComment open={isAddComment} setAddComment={addCommentClick}/>
+        <AddComment open={isAddComment} setAddComment={addCommentClick} addComments={addComments} stock={stock} user={user}/>
 
         </Box>
     )
