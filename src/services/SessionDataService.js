@@ -73,6 +73,20 @@ class SessionDataService {
     }
     return false;
   }
+
+  //candle history session data {candle: , datetime: , stockname: , stockticker: , username: }
+  getCandleHistory() {
+    return JSON.parse(
+      SessionService.getSessionStorageOrDefault("candlehistory", null)
+    );
+  }
+
+  setCandleHistory(candleHistoryArr) {
+    SessionService.setSessionStorage(
+      "candlehistory",
+      JSON.stringify(candleHistoryArr)
+    );
+  }
 }
 
 export default new SessionDataService();

@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
-const FormSelect = ({sendSelectedStock}) => {
+const FormSelect = ({sendSelectedStock, watchStock}) => {
 
     const classes = useStyles();
     const [stock, setStock] = useState('');
@@ -34,9 +34,7 @@ const FormSelect = ({sendSelectedStock}) => {
           <MenuItem value="">
             <em>None</em>
           </MenuItem>
-          <MenuItem value={'AAPL'}>AAPL</MenuItem>
-          <MenuItem value={'PLTR'}>PLTR</MenuItem>
-          <MenuItem value={'BYND'}>BYND</MenuItem>
+          {watchStock.map((x,index) => (<MenuItem key={index} value={x.stockticker}>{x.stockticker}</MenuItem>))}
         </Select>
         <FormHelperText>scan candles for past 200 days</FormHelperText>
       </FormControl>
