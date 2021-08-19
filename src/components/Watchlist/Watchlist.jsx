@@ -10,6 +10,7 @@ import DeletePopup from './DeletePopup';
 import SettingPopup from './SettingPopup';
 import SessionService from '../../session/SessionService';
 import SessionDataService from '../../services/SessionDataService'
+import WatchlistService from '../../services/WatchlistService'
   
   var headers = ['No.', 'Stock Ticker', 'Company Name' , 'Actions']
   // const rows = [
@@ -68,15 +69,27 @@ const Watchlist = () => {
         user: null
     })
 
+    const candleData = useRef(null)
+
     const deleteIconClicked = (stockTicker) => {
         stockUser.current.ticker = stockTicker;
         stockUser.current.user = user;
         setIsDeleteBox(!isDeleteBox);
     }
 
-    const settingIconClicked = (stockTicker) => {
+    const loadStockSettings = async (ticker, user) => {
+        const req = await WatchlistService.getWatchlistCandle(ticker, user);
+        const candleReqData = req.data;
+        candleData.current = candleReqData
+        console.log(candleData.current)
+
+    }
+
+    const settingIconClicked = async (stockTicker) => {
         stockUser.current.ticker = stockTicker;
         stockUser.current.user = user;
+
+        await loadStockSettings(stockTicker, user);
         setIsSettings(!isSettings);
     }
 
@@ -99,14 +112,14 @@ const Watchlist = () => {
           {watchlist.map((row, index) => (
             <TableRow hover={true} key={index} onClick={() => console.log('row ' + row.stockticker + ' is Clicked!')}>
               <TableCell component="th" scope="row" align='left'>
-                &nbsp;{index + 1}
+                &nbsp; {index + 1}
               </TableCell>
               <TableCell align="left">{row.stockticker}</TableCell>
-              <TableCell align="left">{row.stockname}</TableCell>
+              <TableCell align="left">{row.stockname.toUpperCase()}</TableCell>
               <TableCell align="left" id={row.stockticker}>
                 <IconButton path={'/search/'+ row.stockticker } to={ '/search/' + row.stockticker } component={Link} size='small'>
                   <EqualizerIcon /></IconButton>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <IconButton size='small' onClick={() => settingIconClicked(row.stockticker)}><SettingsIcon /></IconButton>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <IconButton size='small' onClick={() => settingIconClicked(row.stockticker)} ><SettingsIcon /></IconButton>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <IconButton size='small' onClick={() => deleteIconClicked(row.stockticker)}><DeleteOutlineIcon /></IconButton></TableCell>
             </TableRow>
           ))}
@@ -125,7 +138,7 @@ const Watchlist = () => {
             
 
     {isDeleteBox && <DeletePopup open={isDeleteBox} setIsDeleteBox= {() => setIsDeleteBox(!isDeleteBox)} stockUser={stockUser.current} setWatchlist={setWatchlist}/>}
-    {isSettings && <SettingPopup open={isSettings} setIsSettings= {() => setIsSettings(!isSettings)} stockUser={stockUser.current}/>}
+    {isSettings && <SettingPopup open={isSettings} setIsSettings= {() => setIsSettings(!isSettings)} stockUser={stockUser.current} candleData={candleData.current}/>}
         </Grid>
     )
 }

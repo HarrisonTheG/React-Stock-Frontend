@@ -14,6 +14,7 @@ import {
 } from "@material-ui/core";
 import { loginStyles } from "../../stylings/LoginStyle.js";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+
 import{useHistory,useParams} from 'react-router-dom';
 import UserService from '../../services/UserService';
 import SessionService from '../../session/SessionService'
@@ -108,7 +109,7 @@ const Login = () => {
         </form>
         <Typography className={classes.registerStyle}>
           Don't have any account yet? &nbsp;
-          <Link onClick={redirect} underline="hover">
+          <Link style={{cursor: 'pointer'}} onClick={redirect} underline="hover">
             Register here
           </Link>
         </Typography>

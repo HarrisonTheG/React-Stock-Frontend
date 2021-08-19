@@ -70,12 +70,14 @@ const SearchStock = (props) => {
    
 
     useEffect(() => {
+        let controller = new AbortController();
         if(pathVariable !== ':ticker'){
             getInitialPrice(pathVariable);
             SessionService.setSessionStorage('currentStock', pathVariable);
         } else if (pathVariable == ':ticker' && currentStock !== null){
             getInitialPrice(currentStock);
         }
+        return () => controller?.abort();
     }, [pathVariable]);
 
     return (

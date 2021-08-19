@@ -15,6 +15,10 @@ const loginStyles = makeStyles({
     fontSize: "13px",
     marginTop: 8,
   },
+  avatarRegisterStyle: {
+    marginTop: 20,
+    backgroundColor: "#ffcc00",
+  },
 });
 
 export { loginStyles };
