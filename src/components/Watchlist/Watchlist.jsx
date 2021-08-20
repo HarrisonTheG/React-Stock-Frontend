@@ -12,7 +12,6 @@ import SessionService from '../../session/SessionService';
 import SessionDataService from '../../services/SessionDataService'
 import WatchlistService from '../../services/WatchlistService'
 
-import validator from 'validator'
   
   var headers = ['No.', 'Stock Ticker', 'Company Name' , 'Actions']
   // const rows = [
@@ -107,7 +106,7 @@ const Watchlist = () => {
       <Table className={classes.table} aria-label="simple table">
         <TableHead bgcolor='lightgrey' >
           <TableRow>
-            {headers.map( (x) => <TableCell align="left"><Box fontWeight={700} fontSize={16} m={1}>{x}</Box></TableCell>)}
+            {headers.map( (x, index) => <TableCell key={index} align="left"><Box fontWeight={700} fontSize={16} m={1}>{x}</Box></TableCell>)}
           </TableRow>
         </TableHead>
         <TableBody>

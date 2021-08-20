@@ -6,15 +6,15 @@ import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
-import {Paper} from "@material-ui/core";
+import {InputLabel, Paper} from "@material-ui/core";
 import { loginStyles } from "../../stylings/LoginStyle.js";
 import {useState} from 'react'
 import UserService from '../../services/UserService';
 import{useHistory} from 'react-router-dom';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
-//import InputLabel from '@material-ui/core/InputLabel';
-//import MenuItem from '@material-ui/core/MenuItem';
-//import Select from '@material-ui/core/Select';
+
+
+import validator from 'validator'
 
 
 export default function SignUp() {
@@ -25,7 +25,9 @@ export default function SignUp() {
   //const [role,setrole]=useState('')   
   const history=useHistory();
   const [register,setregister]=useState(false);
-  const [errorMsg, setErrorMsg] = useState('');
+  const [errorMsg1, setErrorMsg1] = useState('');
+  const [errorMsg2, setErrorMsg2] = useState('');
+  const [errorMsg3, setErrorMsg3] = useState('');
   const classes = loginStyles();
 
   const handleSubmit = (event) => {
@@ -37,20 +39,63 @@ export default function SignUp() {
     //   email: data.get('email'),
     //   password: data.get('password'),
     // });
-
-    const newuser={username:userName,password:password,email:email,role:1}
-    console.log(JSON.stringify(newuser));
+    if(errorMsg1 === '' && errorMsg2 === '' && errorMsg3 === ''){
+      const newuser={username:userName,password:password,email:email,role:1}
+      console.log(JSON.stringify(newuser));
 
     //UserService.addUser(newuser).then(res=>(res.status===200)?history.push("/watchlist"):console.log(res.status)).then(setregister(true));
-    UserService.addUser(newuser).then(res=>(registerSuccessOrFail(res)))
-
+      UserService.addUser(newuser).then(res=>(registerSuccessOrFail(res)))
+    }
   };
 
+  const handleUserChange = async (event) => {
+    setuserName(event.target.value)
+    const resp = await UserService.validateUsername(event.target.value);
+    //console.log(resp.data);
+    if(resp.data){
+      if(resp.data.exist){
+        setErrorMsg2('usernameError');
+      }else{
+        setErrorMsg2('');
+      }
+    }
+  }
+
+  const handleEmailChange = (event) => {
+    const input = event.target.value;
+    if(!validator.isEmail(input)){
+        setEmail(() => {
+          setErrorMsg1('emailError');
+          return input;
+        })
+    }else {
+      setEmail(() => {
+        setErrorMsg1('');
+        return input;
+      })
+    }
+  }
+
+  const handleConfirmPass = (event) => {
+    const input = event.target.value
+    
+    if(input !== password){
+      setConfirmPassword(() => {
+        setErrorMsg3('passwordError');
+        return input;
+      });
+    }else{
+      setConfirmPassword(() => {
+        setErrorMsg3('');
+        return input;
+      });
+    }
+  }
       
   const registerSuccessOrFail=(response)=>{
     if(response.status===200){
       setregister(true);
-      history.push("/watchlist");
+      history.push("/login");
     }
     else{
       console.log(response.status);
@@ -61,7 +106,7 @@ export default function SignUp() {
 
   return (
     <Grid>
-      <Paper elevation={10} className={classes.paperStyle}>
+      <Paper elevation={10} className={classes.registerPaperStyle}>
         <Grid align="center">
           <Avatar className={classes.avatarRegisterStyle}>
             <MenuBookIcon/>
@@ -76,7 +121,8 @@ export default function SignUp() {
           fullWidth
           required
           value={userName}
-          onChange={(e)=>setuserName(e.target.value)}
+          onChange={handleUserChange}
+          
         ></TextField>
         <Box height="5px"></Box>
         <TextField
@@ -86,7 +132,7 @@ export default function SignUp() {
           fullWidth
           required
           value={email}
-          onChange={(e)=>setEmail(e.target.value)}
+          onChange={handleEmailChange}
         ></TextField>
         <Box height="5px"></Box>
         <TextField
@@ -106,7 +152,7 @@ export default function SignUp() {
           fullWidth
           required
           value={confirmPassword}
-          onChange={(e)=>setConfirmPassword(e.target.value)}
+          onChange={handleConfirmPass}
         ></TextField>
        
         
@@ -134,14 +180,14 @@ export default function SignUp() {
           </Link>
         </Typography>
         <Box style={{height: 16}} />
-        {errorMsg === '' && <div/>}
-        {errorMsg === 'emailError' && <Box style={{marginBottom: 8}}>
+        
+        {errorMsg1 === 'emailError' && <Box style={{marginBottom: 8}}>
           <Typography color='error' variant='body2'>Please provide the correct email and try again!
           </Typography></Box>}
-        {errorMsg === 'usernameError' && <Box style={{marginBottom: 8}}>
+        {errorMsg2 === 'usernameError' && <Box style={{marginBottom: 8}}>
           <Typography color='error' variant='body2'>Username exists. Please create new username!
           </Typography></Box>}
-        {errorMsg === 'passwordError' && <Box style={{marginBottom: 8}}>
+        {errorMsg3 === 'passwordError' && <Box style={{marginBottom: 8}}>
           <Typography color='error' variant='body2'>Passwords do not match. Please edit!
           </Typography></Box>}
       </Paper>

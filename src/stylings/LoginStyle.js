@@ -7,6 +7,12 @@ const loginStyles = makeStyles({
     width: 360,
     margin: "80px auto",
   },
+  registerPaperStyle: {
+    padding: 24,
+    height: "75vh",
+    width: 360,
+    margin: "80px auto",
+  },
   avatarStyle: {
     marginTop: 20,
     backgroundColor: "#1bbd7e",
