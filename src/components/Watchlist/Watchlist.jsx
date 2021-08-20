@@ -11,6 +11,8 @@ import SettingPopup from './SettingPopup';
 import SessionService from '../../session/SessionService';
 import SessionDataService from '../../services/SessionDataService'
 import WatchlistService from '../../services/WatchlistService'
+
+import validator from 'validator'
   
   var headers = ['No.', 'Stock Ticker', 'Company Name' , 'Actions']
   // const rows = [

@@ -44,8 +44,8 @@ const SettingPopup = ({open, setIsSettings, stockUser, candleData}) => {
             active: toggleState['checked'+ (index + 1)],
             candlename: candleName[index],
             datetime: (((candleData[index].active !== toggleState['checked' + (index + 1)]) && toggleState['checked' + (index + 1)])
-              ? now : ( (candleData[index].active !== toggleState['checked' + (index + 1)]) ? '0' : (candleData[index].datetime !== '0' ? candleData[index].datetime :  '0'))) });});
-        //console.log(candleInfo);
+              ? now : ( (candleData[index].active !== toggleState['checked' + (index + 1)]) ? '0' : (candleData[index].datetime !== '0' ? new Date(candleData[index].datetime).getTime()/1000 :  '0'))) });});
+        console.log(candleInfo);
         await WatchlistService.setWatchlistCandle(candleInfo);
 
         setIsSettings();
@@ -71,7 +71,7 @@ const SettingPopup = ({open, setIsSettings, stockUser, candleData}) => {
                 name={'checked' + x.id}
                 onChange={handleSwitchToggle}
                 inputProps={{ 'aria-label': 'secondary checkbox' }}></Switch></Box>
-                <Box flex={4} align='left' marginTop={0.5} marginLeft={1}><Typography flex={4} variant='caption'>{'active from: '}
+                <Box flex={4.5} align='left' marginTop={0.5} marginLeft={1}><Typography flex={4} variant='caption'>{'active: '}
                 <Typography variant='caption' color='primary'>
                   {candleData[index].datetime !== '0' ? candleData[index].datetime : 'NA'} 
                 </Typography></Typography></Box>
