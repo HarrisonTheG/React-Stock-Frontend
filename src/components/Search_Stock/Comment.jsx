@@ -27,7 +27,7 @@ const Comment = ({ stock, user }) => {
         try{
             const req = await StockService.getStockComments(ticker);
             const commentData = req.data          
-            console.log(commentData)
+            //console.log(commentData)
           
             setComments(commentData.map((x) => {
                 return ({user: x.username, timestamp: x.commentDateTime, content: x.comment});

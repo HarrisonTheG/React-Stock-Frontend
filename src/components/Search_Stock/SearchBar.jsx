@@ -1,8 +1,7 @@
 
-import { IconButton, Typography, Box, TextField } from '@material-ui/core'
-import SearchIcon from '@material-ui/icons/Search';
+import { Typography, Box, TextField } from '@material-ui/core'
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import ChartService from '../../services/ChartService'
 import { useState }  from 'react'
 

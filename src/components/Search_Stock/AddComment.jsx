@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Dialog, DialogContent, DialogTitle, DialogContentText, DialogActions, TextField } from '@material-ui/core'
+import { Button, Dialog, DialogContent, DialogTitle, DialogActions, TextField } from '@material-ui/core'
 import StockService from '../../services/StockService'
 
 

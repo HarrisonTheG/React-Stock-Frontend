@@ -7,7 +7,6 @@ import {
   TextField,
   Box,
   Checkbox,
-  FormControlLabel,
   Button,
   Typography,
   Link,
@@ -96,13 +95,13 @@ const Login = () => {
           value={password}
           onChange={(e)=>setpassword(e.target.value)}
         ></TextField>
-        <Box height="10px"></Box>
+        {/* <Box height="10px"></Box>
         <FormControlLabel
           control={<Checkbox name="checked" color="primary" />}
           label="Remember me"
           marginRight="0"
-        />
-        <Box height="24px"></Box>
+        /> */}
+        <Box height="32px"></Box>
         <Button type="submit" color="primary" variant="contained" fullWidth>
           login
         </Button>
@@ -119,32 +118,6 @@ const Login = () => {
         
       </Paper>
     </Grid>
-   
-
-    //   <div className="Login">
-    //     <Form onSubmit={handleSubmit}>
-    //       <Form.Group size="lg" controlId="email">
-    //         <Form.Label>Email</Form.Label>
-    //         <Form.Control
-    //           autoFocus
-    //           type="email"
-    //           value={email}
-    //           onChange={(e) => setEmail(e.target.value)}
-    //         />
-    //       </Form.Group>
-    //       <Form.Group size="lg" controlId="password">
-    //         <Form.Label>Password</Form.Label>
-    //         <Form.Control
-    //           type="password"
-    //           value={password}
-    //           onChange={(e) => setPassword(e.target.value)}
-    //         />
-    //       </Form.Group>
-    //       <Button block size="lg" type="submit" disabled={!validateForm()}>
-    //         Login
-    //       </Button>
-    //     </Form>
-    //   </div>
   );
 };
 

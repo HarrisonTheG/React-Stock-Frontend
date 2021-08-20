@@ -5,7 +5,6 @@ const STOCK_PRICE_API_URL = "http://localhost:5000/getLatestPrice/";
 const STOCK_SENTIMENT_API_URL = "http://localhost:5000/getSentiment/";
 const STOCK_TOP5_API_URL = "http://localhost:5000/getStockSymbol/";
 
-// https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1m&limit=1000
 class ChartService {
   getChartCandleData(ticker) {
     const url = STOCK_CANDLE_API_URL + ticker;

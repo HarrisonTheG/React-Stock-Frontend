@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 const loginStyles = makeStyles({
   paperStyle: {
     padding: 24,
-    height: "65vh",
+    height: "62vh",
     width: 360,
     margin: "80px auto",
   },

@@ -1,7 +1,6 @@
 import {useState, useRef, useEffect} from 'react'
 import { Typography, Box, Button, Divider } from '@material-ui/core'
 import BarChartIcon from '@material-ui/icons/BarChart';
-import ChartService from '../../services/ChartService'
 import FormSelect from './FormSelect'
 import AlertContent from './AlertContent'
 import SessionService from '../../session/SessionService'

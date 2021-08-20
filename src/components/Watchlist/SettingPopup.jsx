@@ -45,7 +45,7 @@ const SettingPopup = ({open, setIsSettings, stockUser, candleData}) => {
             candlename: candleName[index],
             datetime: (((candleData[index].active !== toggleState['checked' + (index + 1)]) && toggleState['checked' + (index + 1)])
               ? now : ( (candleData[index].active !== toggleState['checked' + (index + 1)]) ? '0' : (candleData[index].datetime !== '0' ? new Date(candleData[index].datetime).getTime()/1000 :  '0'))) });});
-        console.log(candleInfo);
+        //console.log(candleInfo);
         await WatchlistService.setWatchlistCandle(candleInfo);
 
         setIsSettings();
@@ -65,7 +65,7 @@ const SettingPopup = ({open, setIsSettings, stockUser, candleData}) => {
             <Typography style={{marginBottom: 32}}>Toggle the switch below to activate alert</Typography>
             {candleTypes.map((x, index) => (
             <Box key={index} align='center' display='flex' flexDirection='row' style={{marginBottom: 20}}>
-                <Box flex={1.5}><img src={x.imgSrc} width='40' height='40' flex={2}/></Box>
+                <Box flex={1.5}><img alt={x.name} src={x.imgSrc} width='40' height='40' flex={2}/></Box>
                 <Box flex={5.5} align='left' marginTop={1}><Typography>{x.name}</Typography></Box>
                 <Box flex={1.5} align='right'><Switch flex={2} id={x.id} checked={toggleState['checked'+ x.id]} 
                 name={'checked' + x.id}

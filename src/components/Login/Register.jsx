@@ -15,6 +15,8 @@ import MenuBookIcon from '@material-ui/icons/MenuBook';
 
 
 import validator from 'validator'
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 export default function SignUp() {
@@ -32,18 +34,12 @@ export default function SignUp() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // const data = new FormData(event.currentTarget);
 
-    // // eslint-disable-next-line no-console
-    // console.log({
-    //   email: data.get('email'),
-    //   password: data.get('password'),
-    // });
     if(errorMsg1 === '' && errorMsg2 === '' && errorMsg3 === ''){
       const newuser={username:userName,password:password,email:email,role:1}
-      console.log(JSON.stringify(newuser));
+      //console.log(JSON.stringify(newuser));
 
-    //UserService.addUser(newuser).then(res=>(res.status===200)?history.push("/watchlist"):console.log(res.status)).then(setregister(true));
+    
       UserService.addUser(newuser).then(res=>(registerSuccessOrFail(res)))
     }
   };
@@ -95,6 +91,7 @@ export default function SignUp() {
   const registerSuccessOrFail=(response)=>{
     if(response.status===200){
       setregister(true);
+      toast.success('New User Registered!', { autoClose: 2200, position: toast.POSITION.BOTTOM_RIGHT })
       history.push("/login");
     }
     else{
@@ -154,19 +151,6 @@ export default function SignUp() {
           value={confirmPassword}
           onChange={handleConfirmPass}
         ></TextField>
-       
-        
-        {/* <Box height="10px"></Box>
-              <InputLabel>Role</InputLabel>
-        <Select
-          value={role}
-          onChange={(e)=>setrole(e.target.value)
-          }
-        >
-          <MenuItem value="USER">User</MenuItem>
-          <MenuItem value="ADMIN">Admin</MenuItem>
-
-        </Select> */}
            
         <Box height="32px"></Box>
         <Button type="submit" color="primary" variant="contained" fullWidth>
@@ -174,7 +158,7 @@ export default function SignUp() {
         </Button>
         </form>
         <Typography className={classes.registerStyle}>
-          Have an Account? &nbsp;
+          Already have an account? &nbsp;
           <Link style={{cursor: 'pointer'}} onClick={()=>{history.push("/login")}} underline="hover">
             Login here
           </Link>
@@ -182,7 +166,7 @@ export default function SignUp() {
         <Box style={{height: 16}} />
         
         {errorMsg1 === 'emailError' && <Box style={{marginBottom: 8}}>
-          <Typography color='error' variant='body2'>Please provide the correct email and try again!
+          <Typography color='error' variant='body2'>Please provide a valid email and try again!
           </Typography></Box>}
         {errorMsg2 === 'usernameError' && <Box style={{marginBottom: 8}}>
           <Typography color='error' variant='body2'>Username exists. Please create new username!

@@ -14,14 +14,6 @@ import WatchlistService from '../../services/WatchlistService'
 
   
   var headers = ['No.', 'Stock Ticker', 'Company Name' , 'Actions']
-  // const rows = [
-  //   { id: 1, ticker: 'AAPL', companyName: 'Apple Inc.'},
-  //   { id: 2, ticker: 'PLTR', companyName: 'Palantir Tech' },
-  //   { id: 3, ticker: 'TSLA', companyName: 'Tesla'},
-  //   { id: 4, ticker: 'SOFI', companyName: 'Sofi Tech'},
-  //   { id: 5, ticker: 'BYND', companyName: 'Beyond Meat'},
-  //   { id: 6, ticker: 'SFT', companyName: 'Shift Tech'},
-  // ];
 
   const useStyles = makeStyles({
     table: {
@@ -41,19 +33,6 @@ const Watchlist = () => {
     const [watchlist, setWatchlist] = useState(null)
 
     var user = SessionService.getSessionStorageOrDefault('username', null);
-    //var firstTimeLogin = true;
-
-    // useEffect(() => {
-    //   //console.log(SessionService.getSessionStorageOrDefault('username', null));
-    //   if(firstTimeLogin){
-    //     user = SessionService.getSessionStorageOrDefault('username', null); 
-    //     headers = ['No.', 'Stock Ticker', 'Company Name' , 'Actions'];
-    //     setWatchlist(SessionDataService.getUserWatchlist());
-    //     firstTimeLogin = false;
-    //   }
-    //   console.log('this is executed')
-    // }, [firstTimeLogin])
-
 
     useEffect(() => {//executed everytime navigated through tab bar
       
@@ -82,7 +61,7 @@ const Watchlist = () => {
         const req = await WatchlistService.getWatchlistCandle(ticker, user);
         const candleReqData = req.data;
         candleData.current = candleReqData
-        console.log(candleData.current)
+        //console.log(candleData.current)
 
     }
 
