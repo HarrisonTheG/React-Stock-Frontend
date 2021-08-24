@@ -1,5 +1,5 @@
 import {useState, useRef, useEffect} from 'react'
-import { Typography, Box, Button, Divider } from '@material-ui/core'
+import { Typography, Box, Button, Divider, CircularProgress } from '@material-ui/core'
 import BarChartIcon from '@material-ui/icons/BarChart';
 import FormSelect from './FormSelect'
 import AlertContent from './AlertContent'
@@ -14,6 +14,7 @@ const History = () => {
     const selectedStock = useRef('');
     const [isLogin, setIsLogin] = useState(false);
     const [watchStock, setWatchStock] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
 
     var user = SessionService.getSessionStorageOrDefault('username', null);
     var history = SessionDataService.getCandleHistory();
@@ -45,6 +46,7 @@ const History = () => {
     const onScanClick = async (stock) => {
         if(stock)
         {
+            setIsLoading(true);
             //console.log('selected stock is ' + stock);
             //get candlestick info from REST API
             const req = await StockService.getScanStockCandleResult(stock, user);
@@ -52,14 +54,22 @@ const History = () => {
             console.log(alerts);
             //{candle: , datetime: , stockname: , stockticker: , username: }
             //Set session data
+            
             if(alerts){
             if(alerts.length !== 0){
                 SessionDataService.setCandleHistory(alerts);
                 console.log(SessionDataService.getCandleHistory());
-                setCandleHistory(alerts);
+                setIsLoading(() => {
+                    setCandleHistory(alerts);
+                    return false;
+                })
+               
             } else {
                 SessionDataService.setCandleHistory(null);
-                setCandleHistory(null);
+                setIsLoading(() => {
+                    setCandleHistory(null);
+                    return false;
+                })
             }} 
         
         } 
@@ -81,7 +91,8 @@ const History = () => {
             <Box sx={{ height: '16px' }}></Box>
             <Divider />
             <Box sx={{ height: '24px' }}></Box>
-            <AlertContent candleHistory={candleHistory}/> </div> : 
+            {isLoading ? <Box align='center' marginTop='40px'><CircularProgress/></Box> : <AlertContent candleHistory={candleHistory}/>}
+             </div> : 
 
             <Box style={{marginTop: 120}}  marginLeft='auto' marginRight='auto'>
           <Typography variant='h5' align='center'>Please Login to unlock this feature</Typography></Box>

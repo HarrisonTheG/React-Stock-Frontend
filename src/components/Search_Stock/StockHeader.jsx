@@ -43,12 +43,11 @@ const StockHeader = ({stock, initialPrice, sentiment, companyName, user}) => {
     const [isWatched, setIsWatched] = useState(false)
 
     const onWatchChange = async () => {
-        console.log(companyName);
+        
         if (!isWatched){
             //post stock add to db
             await WatchlistService.addStockWatchlist(stock, user, companyName);
             SessionDataService.addStockToWatchlist(stock, companyName);
-            
             
             toast.info('Added To Watchlist', { autoClose: 2500, position: toast.POSITION.BOTTOM_RIGHT })
         }

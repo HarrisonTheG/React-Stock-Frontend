@@ -6,11 +6,12 @@ import SearchStock from "./components/Search_Stock/SearchStock.jsx";
 import Watchlist from "./components/Watchlist/Watchlist.jsx";
 import History from "./components/History/History.jsx";
 import Register from "./components/Login/Register";
+import MobileStockChart from "./components/MobileStockChart";
 
 function App() {
   return (
     <div className="App">
-      <Navbar />
+      <Navbar id="Navbar" />
       <Switch>
         <Route exact path="/">
           <Login />
@@ -24,6 +25,10 @@ function App() {
           <Login />
         </Route>
         <Route exact path="/register" component={Register}></Route>
+        <Route
+          path="/mobileStockChart/:ticker"
+          component={MobileStockChart}
+        ></Route>
       </Switch>
     </div>
   );
