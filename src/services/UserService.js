@@ -1,7 +1,10 @@
 import axios from "axios";
 
-const USER_API_BASE_URL = "http://localhost:5000/users";
-const USER_VALIDATE_API_URL = "http://localhost:5000/users/validate";
+const USER_VALIDATE_API_URL =
+  "http://t11adproject-env.eba-hyey7nfu.ap-southeast-1.elasticbeanstalk.com/users/validate";
+
+const USER_API_BASE_URL =
+  "http://t11adproject-env.eba-hyey7nfu.ap-southeast-1.elasticbeanstalk.com/users";
 
 class UserService {
   async addUser(User) {
@@ -21,11 +24,15 @@ class UserService {
 
   async authenticateUser(User) {
     return await axios
-      .post("http://localhost:5000/login", JSON.stringify(User), {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
+      .post(
+        "http://t11adproject-env.eba-hyey7nfu.ap-southeast-1.elasticbeanstalk.com/login",
+        JSON.stringify(User),
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
       .then((response) => {
         return response;
       })

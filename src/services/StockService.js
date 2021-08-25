@@ -1,7 +1,9 @@
 import axios from "axios";
 
-const STOCK_COMMENT_API_URL = "http://localhost:5000/comments/";
-const STOCK_CANDLE_SCAN_API_URL = "http://localhost:5000/candlehistory";
+const STOCK_COMMENT_API_URL =
+  "http://t11adproject-env.eba-hyey7nfu.ap-southeast-1.elasticbeanstalk.com//comments/";
+const STOCK_CANDLE_SCAN_API_URL =
+  "http://t11adproject-env.eba-hyey7nfu.ap-southeast-1.elasticbeanstalk.com/candlehistory";
 
 class StockService {
   getStockComments(ticker) {
