@@ -19,6 +19,7 @@ import UserService from '../../services/UserService';
 import SessionService from '../../session/SessionService'
 import WatchlistService from "../../services/WatchlistService.js";
 import SessionDataService from "../../services/SessionDataService.js";
+import GoogleLogin from 'react-google-login';
 
 const Login = () => {
   const history=useHistory();
@@ -46,13 +47,14 @@ const Login = () => {
       SessionService.setSessionStorage('username', userName);
       //console.log(userName);
       loadWatchlist(userName);
+      console.log("login success here!")
       history.push("/search/:ticker");
     }
     else{
       console.log(response.status);
       setIsSuccess(false);
     }
-    return;
+    return response;
   };
 
   function handleSubmit(event) {
@@ -61,7 +63,30 @@ const Login = () => {
     const loginuser={username:userName,password:password}
     UserService.authenticateUser(loginuser).then(res=>(loginSuccessOrFail(res)));
   }
-  
+
+  const responseGoogle= (response)=>{
+    //console.log(response);
+    //console.log(response.profileObj);
+    //console.log(response.profileObj.email)
+    //console.log(response.profileObj.googleId)
+    //setuserName(response.profileObj.name);
+
+    //try to login, if 400, isSuccess is false
+    const loginuser={username:response.profileObj.email,password:response.profileObj.googleId}
+    UserService.authenticateUser(loginuser).then(res=>(loginSuccessOrFail(res))).then(res=>{
+      if(res.status===400){
+        const newuser={username:response.profileObj.email,password:response.profileObj.googleId,email:response.profileObj.email,role:1}
+        UserService.addUser(newuser);
+        console.log("new user registered!")
+        history.push('/search/:ticker');
+      }
+    });
+
+    //if IsSuccess is false, i will add user, 
+    
+
+}
+
   const redirect=()=>{
     history.push("/register")
   }
@@ -102,10 +127,26 @@ const Login = () => {
           marginRight="0"
         /> */}
         <Box height="32px"></Box>
-        <Button type="submit" color="primary" variant="contained" fullWidth>
+        <Box style={{display: 'flex', flexDirection: 'row'}}>
+          <Box style={{flex: 3, marginRight: 8, height: 60}}>
+        <Button style={{height: '75%'}} type="submit" color="primary" variant="contained" fullWidth>
           login
-        </Button>
+        </Button></Box>
+        
+        <Box style={{flex: 1}}>
+        
+          <GoogleLogin
+          clientId="232283893398-krtnuc64b34f9a0mkcts6su5gsim8ik4.apps.googleusercontent.com"
+          buttonText="Login"
+          onSuccess={responseGoogle}
+          onFailure={responseGoogle}
+          cookiePolicy={'single_host_origin'}
+          />
+        
+        </Box>
+        </Box>
         </form>
+       
         <Typography className={classes.registerStyle}>
           Don't have any account yet? &nbsp;
           <Link style={{cursor: 'pointer'}} onClick={redirect} underline="hover">
