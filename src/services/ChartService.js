@@ -8,6 +8,8 @@ const STOCK_SENTIMENT_API_URL =
   "http://t11adproject-env.eba-hyey7nfu.ap-southeast-1.elasticbeanstalk.com/getSentiment/";
 const STOCK_TOP5_API_URL =
   "http://t11adproject-env.eba-hyey7nfu.ap-southeast-1.elasticbeanstalk.com/getStockSymbol/";
+const STOCK_COMMENT_SENTIMENT_API_URL = "http://localhost:5000/getCommentSentiment/"
+
 
 class ChartService {
   getChartCandleData(ticker) {
@@ -23,6 +25,11 @@ class ChartService {
   getLatestStockSentiment(ticker) {
     const url = STOCK_SENTIMENT_API_URL + ticker;
     return axios.get(url);
+  }
+
+  getLatestStockCommentSentiment(ticker) {
+    const url = STOCK_COMMENT_SENTIMENT_API_URL + ticker;
+    return axios.get(url)
   }
 
   getTop5Stock(searchTerm) {
