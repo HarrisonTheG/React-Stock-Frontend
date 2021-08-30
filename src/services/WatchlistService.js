@@ -1,13 +1,13 @@
 import axios from "axios";
 
-// const STOCK_WATCHLIST_API_URL =
-//   "http://t11adproject-env.eba-hyey7nfu.ap-southeast-1.elasticbeanstalk.com/watchlist/";
-// const CANDLE_WATCHLIST_API_URL =
-//   "http://t11adproject-env.eba-hyey7nfu.ap-southeast-1.elasticbeanstalk.com/watchlist/candlewatchlist/";
-
-const STOCK_WATCHLIST_API_URL = "http://localhost:5000/watchlist/";
+const STOCK_WATCHLIST_API_URL =
+  "http://t11adproject-env.eba-hyey7nfu.ap-southeast-1.elasticbeanstalk.com/watchlist/";
 const CANDLE_WATCHLIST_API_URL =
-  "http://localhost:5000/watchlist/candlewatchlist/";
+  "http://t11adproject-env.eba-hyey7nfu.ap-southeast-1.elasticbeanstalk.com/watchlist/candlewatchlist/";
+
+// const STOCK_WATCHLIST_API_URL = "http://localhost:5000/watchlist/";
+// const CANDLE_WATCHLIST_API_URL =
+//   "http://localhost:5000/watchlist/candlewatchlist/";
 
 class WatchlistService {
   getStockWatchlist(user) {
