@@ -20,6 +20,11 @@ import SessionService from '../../session/SessionService'
 import WatchlistService from "../../services/WatchlistService.js";
 import SessionDataService from "../../services/SessionDataService.js";
 import GoogleLogin from 'react-google-login';
+import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
+import btn_google_signin from '../../icon/btn_google_signin_dark.png';
+import btn_facebook_signin from '../../icon/facebook.png';
+
+
 
 const Login = () => {
   const history=useHistory();
@@ -72,10 +77,10 @@ const Login = () => {
     //setuserName(response.profileObj.name);
 
     //try to login, if 400, isSuccess is false
-    const loginuser={username:response.profileObj.email,password:response.profileObj.googleId}
+    const loginuser={username:response.profileObj.email,password:response.profileObj.id}
     UserService.authenticateUser(loginuser).then(res=>(loginSuccessOrFail(res))).then(res=>{
       if(res.status===400){
-        const newuser={username:response.profileObj.email,password:response.profileObj.googleId,email:response.profileObj.email,role:1}
+        const newuser={username:response.profileObj.email,password:response.profileObj.id,email:response.profileObj.email,role:1}
         UserService.addUser(newuser);
         console.log("new user registered!")
         history.push('/search/:ticker');
@@ -83,7 +88,30 @@ const Login = () => {
     });
 
     //if IsSuccess is false, i will add user, 
-    
+
+    // const responseFacebook= (response) => {
+    //   const loginuser2={username:response.profileObj.email,password:response.profileObj.facebookId}
+    //   UserService.authenticateUser(loginuser).then(res=>(loginSuccessOrFail(res))).then(res=>{
+    //     if(res.status===400){
+    //       const newuser={username:response.profileObj.email,password:response.profileObj.facebookId,role:1}
+    //       UserService.addUser(newuser);
+    //       console.log("new user registered!")
+    //       history.push('/search/:ticker');
+    //     }
+    //   })
+    // }
+
+    // const responseFacebook = (response) => {
+    //   console.log(response);
+    //   setuserName(response);
+    //   setpassword(response);
+    //   if (response.accessToken) {
+    //     setIsSuccess(true);
+    //   } else {
+    //     setIsSuccess(false);
+    //   }
+    // }
+
 
 }
 
@@ -96,7 +124,7 @@ const Login = () => {
       <Paper elevation={10} className={classes.paperStyle}>
         <Grid align="center">
           <Avatar className={classes.avatarStyle}>
-            <LockOutlinedIcon />
+            <LockOutlinedIcon/>           
           </Avatar>
           <h2>Sign In</h2>
         </Grid>
@@ -128,23 +156,47 @@ const Login = () => {
         /> */}
         <Box height="32px"></Box>
         <Box style={{display: 'flex', flexDirection: 'row'}}>
-          <Box style={{flex: 3, marginRight: 8, height: 60}}>
+          <Box style={{flex: 3,marginLeft:5,marginRight:8,height: 60}}>
         <Button style={{height: '75%'}} type="submit" color="primary" variant="contained" fullWidth>
           login
         </Button></Box>
         
-        <Box style={{flex: 1}}>
-        
+        </Box>
+
+        <Box style={{display: 'flex', flexDirection: 'row'}}>
+        <Box style={{flex: 3,marginRight:2,height: 60}}>      
           <GoogleLogin
           clientId="232283893398-krtnuc64b34f9a0mkcts6su5gsim8ik4.apps.googleusercontent.com"
-          buttonText="Login"
+          buttonText="Sign In With Google"
           onSuccess={responseGoogle}
           onFailure={responseGoogle}
           cookiePolicy={'single_host_origin'}
-          />
-        
+          theme={"dark"}
+          render={renderProps => (
+            <Button onClick={renderProps.onClick} disabled={renderProps.disabled} fullWidth
+            style={{backgroundImage:'URL('+btn_google_signin+')',backgroundSize:'100% 90%',
+            backgroundRepeat:'no-repeat',backgroundPosition:'center',height:'90%',width:'100%'}} >
+            </Button>            
+          )}/>       
         </Box>
         </Box>
+
+        {/* <Box style={{display: 'flex', flexDirection: 'row'}}>
+        <Box style={{flex: 3,marginLeft:4,marginRight:3,height: 60}}>      
+          <FacebookLogin
+          appId="243635950971762"
+          autoLoad={true}
+          callback={responseGoogle}
+          render={renderProps => (
+            <Button onClick={renderProps.onClick} disabled={renderProps.disabled} fullWidth
+            style={{backgroundImage:'URL('+btn_facebook_signin+')',backgroundSize:'100% 90%',
+            backgroundRepeat:'no-repeat',backgroundPosition:'center',height:'80%',width:'100%'}} >
+            </Button>            
+          )}/>       
+        </Box>
+        </Box> */}
+
+
         </form>
        
         <Typography className={classes.registerStyle}>
