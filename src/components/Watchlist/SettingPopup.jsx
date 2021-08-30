@@ -54,7 +54,6 @@ const SettingPopup = ({open, setIsSettings, stockUser, candleData}) => {
     const handleSwitchToggle = (event) => {
         //get the switch toggle
         setToggleState({...toggleState, [event.target.name]: event.target.checked})
-
     }
 
     return (

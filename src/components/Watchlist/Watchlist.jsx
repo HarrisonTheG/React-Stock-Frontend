@@ -20,7 +20,6 @@ import WatchlistService from '../../services/WatchlistService'
       minWidth: 650,
     },
   });
-
  
 
 const Watchlist = () => {

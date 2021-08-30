@@ -6,7 +6,7 @@ import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
-import {InputLabel, Paper} from "@material-ui/core";
+import {Paper} from "@material-ui/core";
 import { loginStyles } from "../../stylings/LoginStyle.js";
 import {useState} from 'react'
 import UserService from '../../services/UserService';

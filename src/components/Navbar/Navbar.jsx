@@ -23,8 +23,8 @@ function MyTabs() {
         <Tab label="My Watchlist" value="/watchlist" to="/watchlist" component={Link} />
         <Tab label="History" value="/history" to="/history" component={Link} />
       </Tabs>
-      <Box sx={{ width: '40%' }}></Box>
-      <Button value="/login" to="/login" component={Link} onClick={logoutClicked}>
+      
+      <Button value="/login" to="/login" component={Link} onClick={logoutClicked} style={{marginLeft: '30%'}}>
         { SessionService.getSessionStorageOrDefault('username', null) !== null ? 'Logout' : 'Login' }</Button>
     </Box>
   );

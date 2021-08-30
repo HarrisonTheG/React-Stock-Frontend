@@ -6,7 +6,6 @@ import {
   Avatar,
   TextField,
   Box,
-  Checkbox,
   Button,
   Typography,
   Link,
@@ -14,7 +13,7 @@ import {
 import { loginStyles } from "../../stylings/LoginStyle.js";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 
-import{useHistory,useParams} from 'react-router-dom';
+import{useHistory} from 'react-router-dom';
 import UserService from '../../services/UserService';
 import SessionService from '../../session/SessionService'
 import WatchlistService from "../../services/WatchlistService.js";
@@ -37,7 +36,7 @@ const Login = () => {
   const loadWatchlist = async (loginUser) => {
         const req = await WatchlistService.getStockWatchlist(loginUser);
         const data = req.data;
-        //console.log(data);
+        console.log(data);
         SessionDataService.setUserWatchlist(data);
         //console.log(SessionDataService.getUserWatchlist());
   }
@@ -120,12 +119,6 @@ const Login = () => {
           value={password}
           onChange={(e)=>setpassword(e.target.value)}
         ></TextField>
-        {/* <Box height="10px"></Box>
-        <FormControlLabel
-          control={<Checkbox name="checked" color="primary" />}
-          label="Remember me"
-          marginRight="0"
-        /> */}
         <Box height="32px"></Box>
         <Box style={{display: 'flex', flexDirection: 'row'}}>
           <Box style={{flex: 3, marginRight: 8, height: 60}}>
