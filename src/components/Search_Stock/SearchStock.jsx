@@ -92,7 +92,7 @@ const SearchStock = (props) => {
                 stock={stockInfo.stockTicker} initialPrice={stockInfo.initialPrice} 
                 sentiment={stockInfo.sentiment} companyName={stockInfo.companyName} user={user} />
             <StockChart stock={stockInfo.stockTicker} />
-            <Comment stock={stockInfo.stockTicker} user={user}/> </div>: <div></div>}</div>
+            <Comment stock={stockInfo.stockTicker} companyName= {stockInfo.companyName} user={user}/> </div>: <div></div>}</div>
 
                 } </div>
             }

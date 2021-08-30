@@ -4,6 +4,7 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import AddCommentOutlinedIcon from '@material-ui/icons/AddCommentOutlined';
 import AddComment from './AddComment'
 import StockService from '../../services/StockService'
+import ChartService from '../../services/ChartService'
 
 const ButtonStyle = {
         flex: 5,
@@ -11,11 +12,12 @@ const ButtonStyle = {
         margin: '4px',
 }
 
-const Comment = ({ stock, user }) => {
+const Comment = ({ stock, companyName, user }) => {
     
     const [isCommentShown, setShow] = useState(false)
     const [isAddComment, setIsAddComment] = useState(false)
     const [comments, setComments] = useState([null])
+    const [commentSentiment, setCommentSentiment] = useState(null)
     //comments is array of object {user: , timestamp: , content: }
 
     const addComments = (newComment) => {
@@ -26,22 +28,42 @@ const Comment = ({ stock, user }) => {
         
         try{
             const req = await StockService.getStockComments(ticker);
-            const commentData = req.data          
-            //console.log(commentData)
+            const commentData = req.data;
+            // console.log(commentData)
           
             setComments(commentData.map((x) => {
                 return ({user: x.username, timestamp: x.commentDateTime, content: x.comment});
             }))
-            
 
         }catch(error){
             console.log(error)
         }
     }
 
+    const fetchCommentSentiment = async (ticker) => {
+        try {
+            const commentSentimentReq = await ChartService.getLatestStockCommentSentiment(ticker);
+            const commentSentimentData = commentSentimentReq.data;
+            // console.log(commentSentimentData);
+            setCommentSentiment(commentSentimentData);
+        } catch(error) {
+            console.log(error)
+        }
+    }
+
+    const fetchSentimentAndComment = async (stock) => {
+        await fetchComments(stock);
+        await fetchCommentSentiment(stock);
+    }
+
     useEffect( () => {
-        fetchComments(stock)
+        //fetchComments(stock)
+        fetchSentimentAndComment(stock);
     }, [stock])
+
+    // useEffect( () => {
+    //     fetchCommentSentiment(stock)
+    // }, [stock])
 
     const showButtonClick = () => {
 
@@ -67,7 +89,18 @@ const Comment = ({ stock, user }) => {
             Hide</Button> : <Button onClick={showButtonClick} style={ButtonStyle} color='primary' variant='contained'>
             Show</Button> }
             </Box>
-        {isCommentShown && (comments.length !== 0 ? 
+        {isCommentShown && (commentSentiment !== null) && (comments.length !== 0 ? 
+        <Box align="left" display='flex' flexDirection='row'>
+        <Typography>{'Comments Sentiment: '} &nbsp; </Typography>
+        {(commentSentiment === 'neutral') ? 
+        <Typography color='textSecondary' style={{fontWeight: '700'}}>{commentSentiment.toUpperCase()}</Typography> : 
+        ((commentSentiment === 'negative') ? 
+        <Typography color='error' style={{fontWeight: '700'}}>{commentSentiment.toUpperCase()}</Typography> :
+        <span style={{color: 'green', fontWeight: '700'}}>{commentSentiment.toUpperCase()} </span>)}
+        <p></p>
+        </Box>
+        : <div></div>)}
+        {isCommentShown && (comments.length !== 0 ?
         <div>{comments.map((comment, index) => ( <Paper key={index} style={{padding: '16px', marginBottom: '16px'}} elevation={2} >
         <Grid container wrap="nowrap" spacing={2} >
             <Grid item>
@@ -86,7 +119,7 @@ const Comment = ({ stock, user }) => {
     </Paper>))}</div>
         : <Typography>There are no comments yet!</Typography>) }
 
-        <AddComment open={isAddComment} setAddComment={addCommentClick} addComments={addComments} stock={stock} user={user}/>
+        <AddComment open={isAddComment} setAddComment={addCommentClick} addComments={addComments} stock={stock} user={user} companyName={companyName}/>
 
         </Box>
     )

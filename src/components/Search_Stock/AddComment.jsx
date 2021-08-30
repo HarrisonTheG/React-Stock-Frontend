@@ -3,13 +3,14 @@ import { Button, Dialog, DialogContent, DialogTitle, DialogActions, TextField } 
 import StockService from '../../services/StockService'
 
 
-const AddComment = ({open, setAddComment, addComments, stock, user}) => {
+const AddComment = ({open, setAddComment, addComments, stock, user, companyName}) => {
 
     const handleSubmissionAndClose = async () => {
         //handle posting of comment here
         
         const commentContent = document.getElementById('addComment').value;
-        const postComment = {username: user, commentDateTime: Math.floor(Date.now()/1000), stockticker: stock, comment: commentContent}
+        const postComment = {username: user, commentDateTime: Math.floor(Date.now()/1000), stockticker: stock, comment: commentContent, stockname: companyName}
+        console.log(postComment);
 
         try{
             const Resp = await StockService.postStockComment(stock, postComment)

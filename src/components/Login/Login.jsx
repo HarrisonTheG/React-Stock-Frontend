@@ -126,7 +126,7 @@ const Login = () => {
           login
         </Button></Box>
         
-        <Box style={{flex: 1}}>
+       {/* <Box style={{flex: 1}}>
         
           <GoogleLogin
           clientId="232283893398-krtnuc64b34f9a0mkcts6su5gsim8ik4.apps.googleusercontent.com"
@@ -134,9 +134,9 @@ const Login = () => {
           onSuccess={responseGoogle}
           onFailure={responseGoogle}
           cookiePolicy={'single_host_origin'}
-          />
+          /> 
         
-        </Box>
+        </Box> */}
         </Box>
         </form>
        
