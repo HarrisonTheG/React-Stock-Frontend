@@ -13,6 +13,7 @@ To create stock market candlestick pattern alerts for US Daily Stock Chart and T
 
 #Backend:
 Java Spring Boot App (with REST API) connected to MySQL Database and other Financial API Services
+refer [here](https://github.com/HarrisonTheG/T11ADProject)
 
 #App Preview:
 
