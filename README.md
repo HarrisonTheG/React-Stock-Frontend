@@ -1,3 +1,23 @@
+#Objective:
+To create stock market candlestick pattern alerts for US Daily Stock Chart and Twitter sentiment analysis 
+(Currently available patterns: bullish/bearish engulfing pattern, morning/evening star pattern)
+
+#Features:
+1. Real-time stock price changes using WebSocket
+2. Daily Candlestick chart graph
+3. Watchlist functionalities
+4. Comment functionalities
+5. Candle settings toggle
+6. Email notification alerts
+7. Pattern scan for past 200 days
+
+#Backend:
+Java Spring Boot App (with REST API) connected to MySQL Database and other Financial API Services
+
+#App Preview:
+
+![Alt Text](https://github.com/HarrisonTheG/React-Stock-Frontend/blob/master/React-Stock-App.gif)
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
